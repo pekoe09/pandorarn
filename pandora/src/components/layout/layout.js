@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import MainBar from './mainbar'
+import './layout.scss'
 
 const Layout = (props) => {
   return (
