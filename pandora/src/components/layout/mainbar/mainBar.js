@@ -1,13 +1,14 @@
 import React from 'react'
 import { Navbar, Nav, NavItem, Image } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
+import { Login, Logout } from '../../users'
 import './mainbar.scss'
 
 const AnonymousItems = () => {
   return (
-    <Nav>
-      <NavItem>
-        <p>anonymous</p>
+    <Nav style={{ width: "100%" }}>
+      <NavItem style={{ width: "100%" }}>
+        <Login />
       </NavItem>
     </Nav>
   )
@@ -15,9 +16,9 @@ const AnonymousItems = () => {
 
 const LoggedInItems = () => {
   return (
-    <Nav>
-      <NavItem>
-        <p>loggedin</p>
+    <Nav style={{ width: "100%" }}>
+      <NavItem style={{ width: "100%" }}>
+        <Logout />
       </NavItem>
     </Nav>
   )
