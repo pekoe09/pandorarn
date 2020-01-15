@@ -8,11 +8,18 @@ const initialState = {
       name: 'Medals', id: 1,
       categories: [
         {
-          name: 'France', 
-          id: 1, 
+          name: 'France',
+          id: 1,
           categories: [
             { name: "Legion d'Honneur", id: 1 },
-            { name: 'Campaign Medals', id: 2 },
+            {
+              name: 'Campaign Medals',
+              id: 2,
+              categories: [
+                { name: 'Pre-WWI', id: 3 },
+                { name: 'WWI', id: 4 }
+              ]
+            },
             { name: 'Croix de Guerre', id: 3 }
           ]
         },
