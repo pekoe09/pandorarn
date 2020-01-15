@@ -11,7 +11,7 @@ const Logout = ({ logout, history }) => {
   }
 
   return (
-    <Form inline style={{float: "right"}}>
+    <Form inline>
       <Button
         onClick={handleLogout}
         size='mini'

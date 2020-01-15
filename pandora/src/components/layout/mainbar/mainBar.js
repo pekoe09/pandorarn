@@ -2,29 +2,40 @@ import React from 'react'
 import { Navbar, Nav, NavItem, Image } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { Login, Logout } from '../../users'
+import { CollectionSelect } from '../../collections'
 import './mainbar.scss'
+import collectionReducer from '../../../reducers/collectionReducer'
 
 const AnonymousItems = () => {
   return (
-    <Nav style={{ width: "100%" }}>
-      <NavItem style={{ width: "100%" }}>
+    <Nav
+      style={{ width: "100%" }}
+      className='justify-content-end'
+    >
+      <NavItem>
         <Login />
       </NavItem>
     </Nav>
   )
 }
 
-const LoggedInItems = () => {
+const LoggedInItems = ({ collections }) => {
   return (
-    <Nav style={{ width: "100%" }}>
-      <NavItem style={{ width: "100%" }}>
+    <Nav
+      style={{ width: "100%", lineHeight: "2.5em" }}
+      className='justify-content-between'
+    >
+      <NavItem>
+        <CollectionSelect collections={collections} />
+      </NavItem>
+      <NavItem>
         <Logout />
       </NavItem>
     </Nav>
   )
 }
 
-const MainBar = ({ currentUser }) => {
+const MainBar = ({ currentUser, collections }) => {
   return (
     <div className='mainbar'>
       <Navbar
@@ -39,7 +50,7 @@ const MainBar = ({ currentUser }) => {
           className='custom-toggler'
         />
         <Navbar.Collapse id='responsive-mainbar'>
-          {currentUser && <LoggedInItems />}
+          {currentUser && <LoggedInItems collections={collections} />}
           {!currentUser && <AnonymousItems />}
         </Navbar.Collapse>
       </Navbar>

@@ -6,7 +6,10 @@ import './layout.scss'
 const Layout = (props) => {
   return (
     <div>
-      <MainBar currentUser={props.currentUser} />
+      <MainBar
+        currentUser={props.currentUser}
+        collections={props.collections}
+      />
       <div style={{ height: '50px' }}>
         <p>placeholder</p>
       </div>
@@ -16,7 +19,9 @@ const Layout = (props) => {
 }
 
 const mapStateToProps = store => ({
-  currentUser: store.users.currentUser
+  currentUser: store.users.currentUser,
+  currentCollection: store.collections.currentCollection,
+  collections: store.collections.items
 })
 
 export default connect(

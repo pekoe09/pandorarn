@@ -4,9 +4,13 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
-import { userReducer } from './reducers'
+import {
+  collectionReducer,
+  userReducer
+} from './reducers'
 
 const appReducer = combineReducers({
+  collections: collectionReducer,
   users: userReducer
 })
 

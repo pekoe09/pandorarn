@@ -27,7 +27,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Form inline style={{float: "right"}}>
+      <Form inline>
         <input type="hidden" value="prayer" />
         <FormGroup>
           <FormControl

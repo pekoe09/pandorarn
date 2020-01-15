@@ -1,15 +1,21 @@
-import { 
-  login, 
+import {
+  login,
   logout,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE
 } from './userActions'
+import {
+  changeCollection,
+  COLLECTION_CHANGED
+} from './collectionActions'
 
-export { 
-  login, 
+export {
+  changeCollection,
+  login,
   logout,
+  COLLECTION_CHANGED,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_SUCCESS,
