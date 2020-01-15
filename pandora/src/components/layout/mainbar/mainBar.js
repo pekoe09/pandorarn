@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 import { Login, Logout } from '../../users'
 import { CollectionSelect } from '../../collections'
 import './mainbar.scss'
-import collectionReducer from '../../../reducers/collectionReducer'
 
 const AnonymousItems = () => {
   return (

@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap'
 import { changeCollection } from '../../actions'
 
 const getOptions = (collections) => {
-  return collections.map(c => <option value={c.id}>{c.name}</option>)
+  return collections.map(c => <option value={c.id} key={c.id}>{c.name}</option>)
 }
 
 const CollectionSelect = ({ collections, isInline, changeCollection }) => {

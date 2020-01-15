@@ -1,0 +1,19 @@
+@import '../../styles/colors';
+
+.category-bar-item {
+  color: white;
+  border-color: $highlight-color;
+  border-style: solid;
+  padding: 5px;
+  margin: 5px;
+}
+
+.category-bar-item-toggle {
+  background-color: $dark-ground-color;
+  color: white;
+  font-weight: 700;
+  border: none;
+  &:focus {
+    outline: none;
+  }
+}
