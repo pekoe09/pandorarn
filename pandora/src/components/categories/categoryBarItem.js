@@ -30,7 +30,7 @@ const CategoryBarItem = ({ category }) => {
       return (
         <>
           <ul style={{ listStyleType: 'none' }}>
-            {category.categories.map(c => <li><CategoryBarItem category={c} key={c.id} /></li>)}
+            {category.categories.map(c => <li key={c.id}><CategoryBarItem category={c} /></li>)}
           </ul>
         </>
       )

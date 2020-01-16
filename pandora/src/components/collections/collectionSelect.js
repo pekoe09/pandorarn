@@ -7,7 +7,7 @@ const getOptions = (collections) => {
   return collections.map(c => <option value={c.id} key={c.id}>{c.name}</option>)
 }
 
-const CollectionSelect = ({ collections, isInline, changeCollection }) => {
+const CollectionSelect = ({ collections, changeCollection }) => {
   return (
     <Form inline>
       <Form.Group>

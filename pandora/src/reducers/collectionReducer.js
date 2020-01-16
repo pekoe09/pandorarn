@@ -1,5 +1,11 @@
 import {
-  COLLECTION_CHANGED
+  COLLECTION_CHANGED,
+  COLLECTION_CREATE_BEGIN,
+  COLLECTION_CREATE_SUCCESS,
+  COLLECTION_CREATE_FAILURE,
+  COLLECTION_UPDATE_BEGIN,
+  COLLECTION_UPDATE_SUCCESS,
+  COLLECTION_UPDATE_FAILURE
 } from '../actions'
 
 const initialState = {
@@ -30,7 +36,10 @@ const initialState = {
     { name: 'Bank notes', id: 2 },
     { name: 'Badges', id: 3 }
   ],
-  currentCollection: null
+  currentCollection: null,
+  creatingCollection: false,
+  updatingCollection: false,
+  collectionError: null
 }
 
 const collectionReducer = (store = initialState, action) => {
@@ -38,7 +47,47 @@ const collectionReducer = (store = initialState, action) => {
     case COLLECTION_CHANGED:
       return {
         ...store,
-        currentCollection: store.items.find(c => c.id == action.payload.collectionId)
+        currentCollection: store.items.find(c => c.id === action.payload.collectionId)
+      }
+    case COLLECTION_CREATE_BEGIN:
+      return {
+        ...store,
+        creatingCollection: true,
+        collectionError: null
+      }
+    case COLLECTION_CREATE_SUCCESS:
+      console.log('adding collection', action.payload.collection)
+      return {
+        ...store,
+        items: store.items.concat(action.payload.collection),
+        creatingCollection: false,
+        collectionError: null
+      }
+    case COLLECTION_CREATE_FAILURE:
+      return {
+        ...store,
+        creatingCollection: false,
+        collectionError: action.payload.error
+      }
+    case COLLECTION_UPDATE_BEGIN:
+      return {
+        ...store,
+        updatingCollection: true,
+        collectionError: null
+      }
+    case COLLECTION_UPDATE_SUCCESS:
+      return {
+        ...store,
+        items: store.items.map(c => c.id === action.payload.collection.id
+          ? action.payload.collection : c),
+        updatingCollection: false,
+        collectionError: null
+      }
+    case COLLECTION_UPDATE_FAILURE:
+      return {
+        ...store,
+        updatingCollection: false,
+        collectionError: action.payload.error
       }
     default:
       return store

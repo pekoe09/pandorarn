@@ -1,40 +1,46 @@
 import React from 'react'
-import { Navbar, Nav, NavItem, Image } from 'react-bootstrap'
+import { Navbar, Nav, NavItem, Image, Button, Row } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { Login, Logout } from '../../users'
 import { CollectionSelect } from '../../collections'
 import './mainbar.scss'
 
-const AnonymousItems = () => {
-  return (
-    <Nav
-      style={{ width: "100%" }}
-      className='justify-content-end'
-    >
-      <NavItem>
-        <Login />
-      </NavItem>
-    </Nav>
-  )
-}
+const MainBar = ({ currentUser, collections, handleNewCollection }) => {
 
-const LoggedInItems = ({ collections }) => {
-  return (
-    <Nav
-      style={{ width: "100%", lineHeight: "2.5em" }}
-      className='justify-content-between'
-    >
-      <NavItem>
-        <CollectionSelect collections={collections} />
-      </NavItem>
-      <NavItem>
-        <Logout />
-      </NavItem>
-    </Nav>
-  )
-}
+  const AnonymousItems = () => {
+    return (
+      <Nav
+        style={{ width: "100%" }}
+        className='justify-content-end'
+      >
+        <NavItem>
+          <Login />
+        </NavItem>
+      </Nav>
+    )
+  }
 
-const MainBar = ({ currentUser, collections }) => {
+  const LoggedInItems = ({ collections }) => {
+    return (
+      <Nav
+        style={{ width: "100%", lineHeight: "2.5em" }}
+        className='justify-content-between'
+      >
+        <Row>
+          <NavItem>
+            <CollectionSelect collections={collections} />
+          </NavItem>
+          <NavItem style={{ marginLeft: '10px' }}>
+            <Button onClick={handleNewCollection}>New</Button>
+          </NavItem>
+        </Row>
+        <NavItem>
+          <Logout />
+        </NavItem>
+      </Nav>
+    )
+  }
+
   return (
     <div className='mainbar'>
       <Navbar
