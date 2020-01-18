@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import MainBar from './mainbar'
 import SideBar from './sidebar'
+import { MainContainer } from './mainContainer'
 import { EditCollection } from '../collections'
 import './layout.scss'
 
@@ -37,7 +38,9 @@ const Layout = (props) => {
 
           }}
         >
-          <p>Main area</p>
+          <MainContainer
+            collection={props.currentCollection}
+          />
         </div>
       </div>
 

@@ -1,5 +1,11 @@
 import CategoryBarItem from './categoryBarItem'
+import CategoryHeader from './categoryHeader'
+import CategoryListing from './categoryListing'
+import CategoryListings from './categoryListings'
 
 export {
-  CategoryBarItem
+  CategoryBarItem,
+  CategoryHeader,
+  CategoryListing,
+  CategoryListings
 }

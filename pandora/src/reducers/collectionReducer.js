@@ -45,9 +45,10 @@ const initialState = {
 const collectionReducer = (store = initialState, action) => {
   switch (action.type) {
     case COLLECTION_CHANGED:
+      console.log('collection changed', action.payload.collectionId, store.items)
       return {
         ...store,
-        currentCollection: store.items.find(c => c.id === action.payload.collectionId)
+        currentCollection: store.items.find(c => c.id.toString() === action.payload.collectionId)
       }
     case COLLECTION_CREATE_BEGIN:
       return {
