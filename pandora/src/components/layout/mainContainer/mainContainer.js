@@ -1,26 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { CollectionHeader } from '../../collections'
-import { CategoryListings } from '../../categories'
+import { CollectionContainer } from '../../collections'
 
 const MainContainer = ({ collection }) => {
-
-  const handleAddCategory = () => {
-    console.log('adding category')
-  }
 
   return (
     <div
       className='main-container'
       style={{ padding: '10px' }}
     >
-      <CollectionHeader collection={collection} />
-      {collection
-        && collection.categories
-        && <CategoryListings
-          categories={collection.categories}
-          handleAddCategory={handleAddCategory}
-        />}
+      <CollectionContainer collection={collection} />
     </div>
   )
 }

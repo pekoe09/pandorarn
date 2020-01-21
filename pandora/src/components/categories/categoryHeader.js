@@ -5,14 +5,32 @@ import './categoryHeader.scss'
 
 const CategoryHeader = ({
   category,
-  handleAddCategory
+  handleAddCategory,
+  handleAddSlot,
+  handleEditCategory,
+  handleDeleteCategory
 }) => {
 
   const buttonDefs = [
     {
       id: 1,
-      text: 'Add',
+      text: 'Add subcategory',
       clickHandler: handleAddCategory
+    },
+    {
+      id: 2,
+      text: 'Add slot',
+      clickHandler: handleAddSlot
+    },
+    {
+      id: 3,
+      text: 'Edit',
+      clickHandler: handleEditCategory
+    },
+    {
+      id: 4,
+      text: 'Delete',
+      clickHandler: handleDeleteCategory
     }
   ]
 
@@ -36,5 +54,8 @@ CategoryHeader.propTypes = {
   category: PropTypes.shape({
 
   }).isRequired,
-  handleAddCategory: PropTypes.func.isRequired
+  handleAddCategory: PropTypes.func.isRequired,
+  handleAddSlot: PropTypes.func.isRequired,
+  handleEditCategory: PropTypes.func.isRequired,
+  handleDeleteCategory: PropTypes.func.isRequired
 }
