@@ -7,6 +7,15 @@ import {
   LOGOUT_FAILURE
 } from './userActions'
 import {
+  saveCategory,
+  CATEGORY_CREATE_BEGIN,
+  CATEGORY_CREATE_SUCCESS,
+  CATEGORY_CREATE_FAILURE,
+  CATEGORY_UPDATE_BEGIN,
+  CATEGORY_UPDATE_SUCCESS,
+  CATEGORY_UPDATE_FAILURE,
+} from './categoryActions'
+import {
   changeCollection,
   saveCollection,
   COLLECTION_CHANGED,
@@ -20,9 +29,16 @@ import {
 
 export {
   changeCollection,
+  saveCategory,
   saveCollection,
   login,
   logout,
+  CATEGORY_CREATE_BEGIN,
+  CATEGORY_CREATE_SUCCESS,
+  CATEGORY_CREATE_FAILURE,
+  CATEGORY_UPDATE_BEGIN,
+  CATEGORY_UPDATE_SUCCESS,
+  CATEGORY_UPDATE_FAILURE,
   COLLECTION_CHANGED,
   COLLECTION_CREATE_BEGIN,
   COLLECTION_CREATE_SUCCESS,
