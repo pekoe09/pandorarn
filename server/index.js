@@ -5,10 +5,12 @@ const bodyparser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const config = require('./config')
+const mongo = require('./mongo')
 const { tokenExtractor } = require('./utils/tokenExtractor')
 const { userExtractor } = require('./utils/userExtractor')
 
 const { collectionRouter } = require('./collections')
+const { userRouter } = require('./users')
 
 app.use(cors())
 app.use(bodyparser.json())
@@ -47,7 +49,7 @@ server.listen(config.port, () => {
 
 server.on('close', () => {
   console.log('Shutting down server')
-  sequelize.close()
+  mongo.close()
 })
 
 module.exports = {
