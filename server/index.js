@@ -5,14 +5,17 @@ const bodyparser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const config = require('./config')
-const sequelize = require('./sequelize')
 const { tokenExtractor } = require('./utils/tokenExtractor')
 const { userExtractor } = require('./utils/userExtractor')
+
+const { collectionRouter } = require('./collections')
 
 app.use(cors())
 app.use(bodyparser.json())
 app.use(tokenExtractor)
 app.use(userExtractor)
+
+app.use('/api/collections', collectionRouter)
 
 app.use(express.static('/pandora/public'))
 

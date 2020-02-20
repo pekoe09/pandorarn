@@ -13,7 +13,8 @@ const metaDataSchema = new mongoose.Schema({
       required: true
     },
     time: {
-
+      type: Date,
+      required: true
     }
   },
   edited: {
@@ -23,9 +24,10 @@ const metaDataSchema = new mongoose.Schema({
       required: true
     },
     time: {
-      
+      type: Date,
+      required: true
     }
   }
 })
 
-export metaDataSchema
+module.exports = metaDataSchema
