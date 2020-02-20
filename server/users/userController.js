@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const { wrapAsync } = require('./controllerHelpers')
+const { wrapAsync } = require('../utils/controllerHelpers')
 const userRouter = require('express').Router()
-const User = require('../models/user')
+const { User } = require('./user')
 
 userRouter.post('/login', wrapAsync(async (req, res, next) => {
   const body = req.body
