@@ -81,15 +81,41 @@ const validateMonthNumbers = (req, fieldNames, entity, operation) => {
   })
 }
 
-const hydrateIdsToObjects = async (ids, Entity, entityName) => {
+const validateUniqueness = async (Entity, entityName, fieldName, newValue, _id) => {
+  const isValid = await isUnique(Entity, fieldName, newValue, _id)
+  if (!isValid) {
+    let err = new Error(`Another ${entityName} has the same name`)
+    err.isBadRequest = true
+    throw err
+  }
+}
+
+const isUnique = async (Entity, fieldName, newValue, _id) => {
+  const match = await Entity.findOne({ [fieldName]: newValue })
+  if (match) {
+    if (_id && _id.equals(match._id)) {
+      return true
+    } else {
+      return false
+    }
+  }
+  return true
+}
+
+const findObjectById = async (id, Entity, entityName) => {
+  const entity = await Entity.findById(id)
+  if (!entity) {
+    let err = new Error(`${capitalize(entityName)} is not found (${id})`)
+    err.isBadRequest = true
+    throw err
+  }
+  return entity
+}
+
+const findObjectsById = async (ids, Entity, entityName) => {
   let objects = []
   for (const id of ids) {
-    const entity = await Entity.findById(id)
-    if (!entity) {
-      let err = new Error(`${entityName} is not valid (${id})`)
-      err.isBadRequest = true
-      throw err
-    }
+    const entity = findObjectById(id, Entity, entityName)
     objects.push(entity)
   }
   return objects
@@ -102,6 +128,10 @@ const stringifyByProperty = (arr, propertyName, separator) => {
   return propStr
 }
 
+const capitalize = old => {
+  return old.charAt(0).toUpperCase + old.slice(1)
+}
+
 module.exports = {
   wrapAsync,
   checkUser,
@@ -110,7 +140,10 @@ module.exports = {
   validateMandatoryFields,
   validateNonNegativeFields,
   validateMonthNumbers,
+  validateUniqueness,
   validateEmailForm,
-  hydrateIdsToObjects,
+  findObjectById,
+  findObjectsById,
+  isUnique,
   stringifyByProperty
 }

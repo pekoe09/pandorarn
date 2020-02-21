@@ -2,7 +2,9 @@ const {
 	wrapAsync,
 	checkUser,
 	getMetaData,
-	validateMandatoryFields
+  validateMandatoryFields,
+  validateUniqueness,
+  findObjectById
 } = require('../utils/controllerHelpers')
 const collectionRouter = require('express').Router()
 const Collection = require('./collection')
@@ -17,13 +19,7 @@ collectionRouter.get('/', wrapAsync(async (req, res, next) => {
 collectionRouter.post('/', wrapAsync(async (req, res, next) => {
 	checkUser(req)
 	validateMandatoryFields(req, ['name'], 'collection', 'create')
-
-	let nameMatch = await Collection.findOne({ name: req.body.name })
-	if (nameMatch) {
-		let err = new Error('Another collection has the same name')
-		err.isBadRequest = true
-		throw err
-	}
+  await validateUniqueness(Collection, 'collection', 'name', req.body.name)
 
 	let collection = new Collection({
 		name: req.body.name,
@@ -39,21 +35,9 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
 
 collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
 	checkUser(req)
-	validateMandatoryFields(req, ['name'], 'collection', 'update')
-
-	let collection = await Collection.findById(req.params.id)
-	if (!collection) {
-		let err = new Error('Collection not found')
-		err.isBadRequest = true
-		throw err
-	}
-
-	let nameMatch = await Collection.findOne({ name: req.body.name })
-	if (nameMatch && !nameMatch._id.equals(collection._id)) {
-		let err = new Error('Another collection has the same name')
-		err.isBadRequest = true
-		throw err
-	}
+  validateMandatoryFields(req, ['name'], 'collection', 'update')
+	let collection = await findObjectById(req.params.id, Collection, 'collection')
+  await validateUniqueness(Collection, 'collection', 'name', req.body.name, collection._id)
 
 	collection.name = req.body.name
 	collection.description = req.body.description
@@ -65,13 +49,7 @@ collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
 
 collectionRouter.delete('/:id', wrapAsync(async (req, res, next) => {
 	checkUser(req)
-
-	let collection = await Collection.findById(req.params.id)
-	if (!collection) {
-		let err = new Error('Collection not found')
-		err.isBadRequest = true
-		throw err
-	}
+  let collection = await findObjectById(req.params.id, Collection, 'collection')
 
 	if (collection.slots.length > 0) {
 		res.status(403).json({
