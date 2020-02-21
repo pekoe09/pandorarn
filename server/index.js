@@ -10,7 +10,9 @@ const { tokenExtractor } = require('./utils/tokenExtractor')
 const { userExtractor } = require('./utils/userExtractor')
 
 const { collectionRouter } = require('./collections')
+const { setRouter } = require('./sets')
 const { userRouter } = require('./users')
+const { venueRouter } = require('./venues')
 
 app.use(cors())
 app.use(bodyparser.json())
@@ -18,6 +20,8 @@ app.use(tokenExtractor)
 app.use(userExtractor)
 
 app.use('/api/collections', collectionRouter)
+app.use('/api/sets', setRouter)
+app.use('/api/venues', venueRouter)
 
 app.use(express.static('/pandora/public'))
 

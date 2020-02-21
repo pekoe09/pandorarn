@@ -61,7 +61,7 @@ const validateNonNegativeFields = (req, fieldNames, entity, operation) => {
   fieldNames.forEach(f => {
     const value = req.body[f]
     if (isNaN(value) || value < 0) {
-      let err = new Error(`The value for ${f} is negative (trying to ${operation} ${entity}).`)
+      let err = new Error(`The value for ${f} is negative or NaN (trying to ${operation} ${entity}).`)
       err.isBadRequest = true
       throw err
     }
@@ -121,6 +121,12 @@ const findObjectsById = async (ids, Entity, entityName) => {
   return objects
 }
 
+const addChildToEntity = async (childId, entityId, Entity, entityName, arrayName) => {
+  let entity = await findObjectById(entityId, Entity, entityName)
+  entity[arrayName].push(childId)
+  await Entity.findByIdAndUpdate(entityId, entity)
+}
+
 const stringifyByProperty = (arr, propertyName, separator) => {
   let propStr = ''
   propStr = arr.reduce((fullString, entity) => `${fullString}${entity[propertyName]}${separator}`, '')
@@ -144,6 +150,7 @@ module.exports = {
   validateEmailForm,
   findObjectById,
   findObjectsById,
+  addChildToEntity,
   isUnique,
   stringifyByProperty
 }
