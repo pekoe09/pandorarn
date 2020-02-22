@@ -10,7 +10,9 @@ const { tokenExtractor } = require('./utils/tokenExtractor')
 const { userExtractor } = require('./utils/userExtractor')
 
 const { collectionRouter } = require('./collections')
+const { imageRouter } = require('./images')
 const { setRouter } = require('./sets')
+const { slotRouter } = require('./slots')
 const { userRouter } = require('./users')
 const { venueRouter } = require('./venues')
 
@@ -20,7 +22,9 @@ app.use(tokenExtractor)
 app.use(userExtractor)
 
 app.use('/api/collections', collectionRouter)
+app.use('/api/images', imageRouter)
 app.use('/api/sets', setRouter)
+app.use('/api/slots', slotRouter)
 app.use('/api/venues', venueRouter)
 
 app.use(express.static('/pandora/public'))

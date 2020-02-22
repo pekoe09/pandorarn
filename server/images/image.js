@@ -4,7 +4,8 @@ const metaDataSchema = require('../utils/metaData')
 const imageSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   caption: {
     type: String

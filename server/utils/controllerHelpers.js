@@ -127,6 +127,12 @@ const addChildToEntity = async (childId, entityId, Entity, entityName, arrayName
   await Entity.findByIdAndUpdate(entityId, entity)
 }
 
+const removeChildFromEntity = async (childId, entityId, Entity, entityName, arrayName) => {
+  let entity = await findObjectById(entityId, Entity, entityName)
+  entity[arrayName] = entity[arrayName].filter(a => a !== childId)
+  await Entity.findByIdAndUpdate(entityId, entity)
+}
+
 const stringifyByProperty = (arr, propertyName, separator) => {
   let propStr = ''
   propStr = arr.reduce((fullString, entity) => `${fullString}${entity[propertyName]}${separator}`, '')
@@ -151,6 +157,7 @@ module.exports = {
   findObjectById,
   findObjectsById,
   addChildToEntity,
+  removeChildFromEntity,
   isUnique,
   stringifyByProperty
 }
