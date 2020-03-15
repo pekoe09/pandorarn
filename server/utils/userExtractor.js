@@ -23,7 +23,6 @@ const userExtractor = async (req, res, next) => {
       next(err)
     }
     req.user = await User.findById(userId)
-    req.user = {}
   }
   next()
 }

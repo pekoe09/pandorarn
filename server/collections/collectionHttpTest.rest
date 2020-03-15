@@ -4,7 +4,7 @@ GET http://localhost:3001/api/collections HTTP/1.1
 
 POST http://localhost:3001/api/collections HTTP/1.1
 content-type: application/json
-Authorization: bearer xxx
+Authorization: {{token}}
 
 {
   "name": "testingCollection"

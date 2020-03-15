@@ -28,6 +28,7 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
     slots: [],
     metaData: getMetaData(req)
   })
+  console.log('collection to be saved', collection)
   collection = await collection.save()
 
   res.status(201).json(collection)

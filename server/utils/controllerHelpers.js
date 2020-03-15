@@ -15,6 +15,7 @@ const checkUser = (req) => {
 const getMetaData = (req, old) => {
   const time = new Date()
   const { user } = req
+  //console.log('req', req)
   if (!old) {
     return {
       owner: user,

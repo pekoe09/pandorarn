@@ -1,5 +1,17 @@
 const mongoose = require('mongoose')
 
+const timestampSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false
+  },
+  time: {
+    type: Date,
+    required: false
+  }
+})
+
 const metaDataSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -7,26 +19,12 @@ const metaDataSchema = new mongoose.Schema({
     required: true
   },
   created: {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    },
-    time: {
-      type: Date,
-      required: true
-    }
+    type: timestampSchema,
+    required: true
   },
   edited: {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    },
-    time: {
-      type: Date,
-      required: true
-    }
+    type: timestampSchema,
+    required: false
   }
 })
 
