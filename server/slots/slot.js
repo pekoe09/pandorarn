@@ -13,9 +13,9 @@ const slotSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  collection: {
+  panCollection: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Collection',
+    ref: 'PanCollection',
     required: true
   },
   set: {

@@ -14,9 +14,9 @@ const imageSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
-  collection: {
+  panCollection: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Collection',
+    ref: 'PanCollection',
     required: true
   },
   set: {

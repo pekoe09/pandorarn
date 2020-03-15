@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const metaDataSchema = require('../utils/metaData')
 
-const collectionSchema = new mongoose.Schema({
+const panCollectionSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -29,6 +29,6 @@ const collectionSchema = new mongoose.Schema({
   metaData: metaDataSchema
 })
 
-const Collection = mongoose.model('Collection', collectionSchema)
+const PanCollection = mongoose.model('Collection', panCollectionSchema)
 
-module.exports = Collection
+module.exports = PanCollection

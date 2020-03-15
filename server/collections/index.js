@@ -1,7 +1,7 @@
 const collectionRouter = require('./collectionController')
-const Collection = require('./collection')
+const PanCollection = require('./panCollection')
 
 module.exports = {
-	Collection,
+	PanCollection,
 	collectionRouter
 }

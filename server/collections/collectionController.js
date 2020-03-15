@@ -7,10 +7,10 @@ const {
   findObjectById
 } = require('../utils/controllerHelpers')
 const collectionRouter = require('express').Router()
-const Collection = require('./collection')
+const PanCollection = require('./panCollection')
 
 collectionRouter.get('/', wrapAsync(async (req, res, next) => {
-  const collections = await Collection
+  const collections = await PanCollection
     .find({})
     .sort('name')
   res.json(collections)
@@ -19,9 +19,9 @@ collectionRouter.get('/', wrapAsync(async (req, res, next) => {
 collectionRouter.post('/', wrapAsync(async (req, res, next) => {
   checkUser(req)
   validateMandatoryFields(req, ['name'], 'collection', 'create')
-  await validateUniqueness(Collection, 'collection', 'name', req.body.name)
+  await validateUniqueness(PanCollection, 'collection', 'name', req.body.name)
 
-  let collection = new Collection({
+  let collection = new PanCollection({
     name: req.body.name,
     description: req.body.description,
     sets: [],
@@ -37,12 +37,12 @@ collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
   validateMandatoryFields(req, ['name'], 'collection', 'update')
   let collection = await findObjectById(req.params.id, Collection, 'collection')
-  await validateUniqueness(Collection, 'collection', 'name', req.body.name, collection._id)
+  await validateUniqueness(PanCollection, 'collection', 'name', req.body.name, collection._id)
 
   collection.name = req.body.name
   collection.description = req.body.description
   collection.metaData = getMetaData(req, collection.metaData)
-  collection = await Collection.findByIdAndUpdate(collection._id, collection, { new: true })
+  collection = await PanCollection.findByIdAndUpdate(collection._id, collection, { new: true })
 
   res.status(201).json(collection)
 }))
@@ -60,7 +60,7 @@ collectionRouter.delete('/:id', wrapAsync(async (req, res, next) => {
       error: 'Collection cannot be deleted as it still has sets.'
     })
   } else {
-    await Collection.findByIdAndRemove(collection._id)
+    await PanCollection.findByIdAndRemove(collection._id)
     res.status(204).end()
   }
 }))
