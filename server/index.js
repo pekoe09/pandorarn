@@ -25,6 +25,7 @@ app.use('/api/collections', collectionRouter)
 app.use('/api/images', imageRouter)
 app.use('/api/sets', setRouter)
 app.use('/api/slots', slotRouter)
+app.use('/api/users', userRouter)
 app.use('/api/venues', venueRouter)
 
 app.use(express.static('/pandora/public'))

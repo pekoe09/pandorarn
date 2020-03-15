@@ -28,6 +28,7 @@ console.log('Connecting to database...')
 mongoose.set('useNewUrlParser', true)
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
+mongoose.set('useUnifiedTopology', true)
 console.log('connstr:', config.dbConnStr)
 mongoose.connect(config.dbConnStr, { useNewUrlParser: true })
 mongoose.Promise = global.Promise

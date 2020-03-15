@@ -1,0 +1,22 @@
+GET http://localhost:3001/api/collections HTTP/1.1
+
+###
+
+POST http://localhost:3001/api/collections HTTP/1.1
+content-type: application/json
+Authorization: bearer xxx
+
+{
+  "name": "testingCollection"
+}
+
+###
+
+POST https://example.com/comments HTTP/1.1
+content-type: application/json
+Authorization: token xxx
+
+<request>
+    <name>sample</name>
+    <time>Wed, 21 Oct 2015 18:27:50 GMT</time>
+</request>
