@@ -7,16 +7,23 @@ content-type: application/json
 Authorization: {{token}}
 
 {
-  "name": "testingCollection"
+  "name": "testingCollection2",
+  "description": "test description"
 }
 
 ###
 
-POST https://example.com/comments HTTP/1.1
+PUT http://localhost:3001/api/collections/5e6e99a9bd112a7e2c125a28 HTTP/1.1
 content-type: application/json
-Authorization: token xxx
+Authorization: {{token}}
 
-<request>
-    <name>sample</name>
-    <time>Wed, 21 Oct 2015 18:27:50 GMT</time>
-</request>
+{
+  "name": "testingCollectionEdited",
+  "description": "test description edited"
+}
+
+###
+
+DELETE http://localhost:3001/api/collections/5e6e99a9bd112a7e2c125a28 HTTP/1.1
+content-type: application/json
+Authorization: {{token}}

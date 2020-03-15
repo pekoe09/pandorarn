@@ -37,7 +37,7 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
 collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
   validateMandatoryFields(req, ['name'], 'collection', 'update')
-  let collection = await findObjectById(req.params.id, Collection, 'collection')
+  let collection = await findObjectById(req.params.id, PanCollection, 'collection')
   await validateUniqueness(PanCollection, 'collection', 'name', req.body.name, collection._id)
 
   collection.name = req.body.name
@@ -50,7 +50,7 @@ collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
 
 collectionRouter.delete('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
-  let collection = await findObjectById(req.params.id, Collection, 'collection')
+  let collection = await findObjectById(req.params.id, PanCollection, 'collection')
 
   if (collection.slots.length > 0) {
     res.status(403).json({
