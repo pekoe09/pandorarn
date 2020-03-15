@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { CollectionHeader } from './index'
+import {
+  CollectionHeader,
+  EditCollection
+} from './index'
 import { CategoryListings } from '../categories'
 
 const CollectionContainer = ({ collection }) => {
 
-  const handleEditCollection = (collection) => {
-    console.log('editing collection', collection)
+  const [editCollectionIsOpen, setEditCollectionIsOpen] = useState(false)
+
+  const toggleEditCollection = (collection) => {
+    setEditCollectionIsOpen(!editCollectionIsOpen)
   }
 
   const handleDeleteCollection = (collectionId) => {
@@ -65,7 +70,7 @@ const CollectionContainer = ({ collection }) => {
     <>
       <CollectionHeader
         collection={collection}
-        handleEditCollection={handleEditCollection}
+        handleEditCollection={toggleEditCollection}
         handleDeleteCollection={handleDeleteCollection}
         handleAddCategory={handleAddCategory}
         handleEditCategory={handleEditCategory}
@@ -97,6 +102,12 @@ const CollectionContainer = ({ collection }) => {
           handleEditSighting={handleEditSighting}
           handleDeleteSighting={handleDeleteSighting}
         />}
+
+      <EditCollection
+        isOpen={editCollectionIsOpen}
+        closeModal={toggleEditCollection}
+        collection={collection}
+      />
     </>
   )
 }
