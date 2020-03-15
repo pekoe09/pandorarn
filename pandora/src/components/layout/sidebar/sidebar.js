@@ -1,5 +1,4 @@
-import React, { createRef } from 'react'
-import { CollectionSelect } from '../../collections'
+import React from 'react'
 import { CategoryBarItem } from '../../categories'
 import './sidebar.scss'
 
