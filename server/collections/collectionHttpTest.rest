@@ -1,0 +1,29 @@
+GET http://localhost:3001/api/collections HTTP/1.1
+
+###
+
+POST http://localhost:3001/api/collections HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+  "name": "testingCollection2",
+  "description": "test description"
+}
+
+###
+
+PUT http://localhost:3001/api/collections/5e6e99a9bd112a7e2c125a28 HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+  "name": "testingCollectionEdited",
+  "description": "test description edited"
+}
+
+###
+
+DELETE http://localhost:3001/api/collections/5e6e99a9bd112a7e2c125a28 HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
