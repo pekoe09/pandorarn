@@ -5,14 +5,28 @@ const bodyparser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const config = require('./config')
-const sequelize = require('./sequelize')
+const mongo = require('./mongo')
 const { tokenExtractor } = require('./utils/tokenExtractor')
 const { userExtractor } = require('./utils/userExtractor')
+
+const { collectionRouter } = require('./collections')
+const { imageRouter } = require('./images')
+const { setRouter } = require('./sets')
+const { slotRouter } = require('./slots')
+const { userRouter } = require('./users')
+const { venueRouter } = require('./venues')
 
 app.use(cors())
 app.use(bodyparser.json())
 app.use(tokenExtractor)
 app.use(userExtractor)
+
+app.use('/api/collections', collectionRouter)
+app.use('/api/images', imageRouter)
+app.use('/api/sets', setRouter)
+app.use('/api/slots', slotRouter)
+app.use('/api/users', userRouter)
+app.use('/api/venues', venueRouter)
 
 app.use(express.static('/pandora/public'))
 
@@ -44,7 +58,7 @@ server.listen(config.port, () => {
 
 server.on('close', () => {
   console.log('Shutting down server')
-  sequelize.close()
+  mongo.close()
 })
 
 module.exports = {
