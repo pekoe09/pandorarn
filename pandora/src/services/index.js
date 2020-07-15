@@ -11,6 +11,11 @@ import {
   removeEntity,
   updateEntity
 } from './entityServices'
+import {
+  attemptLogin,
+  attemptLogout,
+  attemptRegister
+} from './userServices'
 
 export {
   addEntity,
@@ -21,5 +26,8 @@ export {
   getOne,
   getTokenHeader,
   removeEntity,
-  updateEntity
+  updateEntity,
+  attemptLogin,
+  attemptLogout,
+  attemptRegister
 }

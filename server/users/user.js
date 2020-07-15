@@ -25,10 +25,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     select: true
+  },
+  userRights: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UserRight',
+      required: true
+    }],
+    required: true
   }
 })
 
-userSchema.virtual('fullName').get(function() {
+userSchema.virtual('fullName').get(function () {
   return (`${this.firstNames} ${this.lastName}`)
 })
 

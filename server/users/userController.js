@@ -5,6 +5,7 @@ const userRouter = require('express').Router()
 const User = require('./user')
 
 userRouter.post('/login', wrapAsync(async (req, res, next) => {
+  console.log('Incoming call', req.body)
   const body = req.body
   console.log('body:', req.body)
   const user = await User
@@ -41,5 +42,13 @@ userRouter.post('/login', wrapAsync(async (req, res, next) => {
     token
   })
 }))
+
+// userRouter.post('/register', wrapAsync(async (req, res, next) => {
+
+// }))
+
+// userRouter.put(':/id', wrapAsync(async (req, res, next) => {
+  
+// }))
 
 module.exports = userRouter

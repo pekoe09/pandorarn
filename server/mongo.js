@@ -14,7 +14,8 @@ const initializeUser = async () => {
       passwordHash,
       firstNames: 'Default',
       lastName: 'Admin',
-      email: 'some.one@some.where'
+      email: 'some.one@some.where',
+      userRights: []
     })
     await user.save()
   }

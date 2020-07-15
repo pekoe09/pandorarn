@@ -8,6 +8,7 @@ const {
 } = require('../utils/controllerHelpers')
 const collectionRouter = require('express').Router()
 const PanCollection = require('./panCollection')
+const { User, UserRight } = require('../users')
 
 collectionRouter.get('/', wrapAsync(async (req, res, next) => {
   const collections = await PanCollection
@@ -24,12 +25,33 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
   let collection = new PanCollection({
     name: req.body.name,
     description: req.body.description,
+    owner: req.user,
+    userRights: [],
     sets: [],
     slots: [],
     metaData: getMetaData(req)
   })
   console.log('collection to be saved', collection)
   collection = await collection.save()
+
+  let userRight = new UserRight({
+    user: req.user,
+    panCollection: collection,
+    rightLevel: 'admin'
+  })
+  userRight = await userRight.save()
+  let user = await User.findById(req.user)
+  console.log('adding new right to user')
+  if (user.userRights) {
+    user.userRights.push(userRight)
+  } else {
+    user.userRights = [userRight]
+  }
+  console.log('updating user', user)
+  await User.findByIdAndUpdate(user._id, user)
+  console.log('adding new right to collection')
+  collection.userRights.push(userRight)
+  collection = await PanCollection.findByIdAndUpdate(collection._id, collection, { new: true })
 
   res.status(201).json(collection)
 }))

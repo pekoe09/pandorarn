@@ -8,7 +8,7 @@ import './app.css'
 function App() {
   return (
     <Layout>
-      <p>lapsielementti</p>
+      <p>lapsielementti userrights branch</p>
     </Layout>
   );
 }

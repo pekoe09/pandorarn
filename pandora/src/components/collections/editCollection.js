@@ -5,7 +5,7 @@ import { Modal, Form } from '../common'
 import { FormButtons } from '../common'
 import { saveCollection } from '../../actions'
 
-const EditCollection = ({ isOpen, closeModal, error, collection }) => {
+const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection }) => {
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')

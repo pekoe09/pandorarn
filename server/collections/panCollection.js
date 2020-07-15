@@ -10,6 +10,19 @@ const panCollectionSchema = new mongoose.Schema({
   description: {
     type: String
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  userRights: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UserRight',
+      required: true
+    }],
+    required: true
+  },
   sets: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -22,7 +35,7 @@ const panCollectionSchema = new mongoose.Schema({
     type: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Slot',
-      required: true    
+      required: true
     }],
     required: true
   },
