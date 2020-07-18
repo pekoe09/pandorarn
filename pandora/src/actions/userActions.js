@@ -8,6 +8,8 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
+export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS'
+export const REGISTRATION_FAILURE = 'REGISTRATION_FAILURE'
 
 export const loginSuccess = currentUser => ({
   type: LOGIN_SUCCESS,
@@ -28,6 +30,16 @@ export const logoutFailure = error => ({
   payload: { error }
 })
 
+export const registrationSuccess = newUser => ({
+  type: REGISTRATION_SUCCESS,
+  payload: { newUser }
+})
+
+export const registrationFailure = error => ({
+  type: REGISTRATION_FAILURE,
+  payload: { error }
+})
+
 export const login = (credentials) => {
   return async (dispatch) => {
     try {
@@ -37,7 +49,6 @@ export const login = (credentials) => {
       //   email: 'terttu@testi.com',
       //   level: 'admin'
       // }
-      console.log('Attempting to log in: ', credentials)
       const currentUser = await attemptLogin(credentials)
       // TODO: call entityservices to initialize data      
       dispatch(loginSuccess(currentUser))
@@ -61,5 +72,13 @@ export const logout = () => {
 }
 
 export const register = (userinfo) => {
-
+  return async (dispatch) => {
+    try {
+      const newUser = await attemptRegister(userinfo)
+      dispatch(registrationSuccess(newUser))
+    } catch (exception) {
+      console.log(exception)
+      dispatch(registrationFailure(exception))
+    }
+  }
 }

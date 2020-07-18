@@ -4,14 +4,20 @@ import MainBar from './mainbar'
 import SideBar from './sidebar'
 import { MainContainer } from './mainContainer'
 import { EditCollection } from '../collections'
+import { Register } from '../users'
 import './layout.scss'
 
 const Layout = (props) => {
 
   const [editCollectionIsOpen, setEditCollectionIsOpen] = useState(false)
+  const [registrationIsOpen, setRegistrationIsOpen] = useState(false)
 
   const toggleEditCollection = () => {
     setEditCollectionIsOpen(!editCollectionIsOpen)
+  }
+
+  const toggleRegistration = () => {
+    setRegistrationIsOpen(!registrationIsOpen)
   }
 
   return (
@@ -20,6 +26,7 @@ const Layout = (props) => {
         currentUser={props.currentUser}
         collections={props.collections}
         handleNewCollection={toggleEditCollection}
+        handleRegistration={toggleRegistration}
       />
       <div
         style={{
@@ -48,6 +55,12 @@ const Layout = (props) => {
         isOpen={editCollectionIsOpen}
         closeModal={toggleEditCollection}
         collection={null}
+        error={''}
+      />
+
+      <Register
+        isOpen={registrationIsOpen}
+        closeModal={toggleRegistration}
         error={''}
       />
     </>
