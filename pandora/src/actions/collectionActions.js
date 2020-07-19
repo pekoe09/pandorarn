@@ -1,3 +1,10 @@
+import {
+  getAll,
+  addEntity,
+  updateEntity,
+  removeEntity
+} from '../services'
+
 export const COLLECTION_CREATE_BEGIN = 'COLLECTION_CREATE_BEGIN'
 export const COLLECTION_CREATE_SUCCESS = 'COLLECTION_CREATE_SUCCESS'
 export const COLLECTION_CREATE_FAILURE = 'COLLECTION_CREATE_FAILURE'
@@ -39,7 +46,6 @@ export const collectionChanged = collectionId => ({
   payload: { collectionId }
 })
 
-
 export const changeCollection = collectionId => {
   return (dispatch) => {
     dispatch(collectionChanged(collectionId))
@@ -49,22 +55,26 @@ export const changeCollection = collectionId => {
 export const saveCollection = collection => {
   console.log('action to save', collection)
   return async (dispatch) => {
-    if (collection.id) {
-      dispatch(updateCollectionBegin())
-      try {
-        // call async service here
-        console.log('dispatching success')
-        dispatch(updateCollectionSuccess(collection))
-      } catch (exception) {
-        dispatch(updateCollectionFailure(exception))
-      }
-    } else {
+    // if (collection.id) {
+    //   dispatch(updateCollectionBegin())
+    //   try {
+    //     collection = await updateEntity('collections', collection)
+    //     console.log('dispatching success')
+    //     dispatch(updateCollectionSuccess(collection))
+    //   } catch (exception) {
+    //     dispatch(updateCollectionFailure(exception))
+    //   }
+    // } else {
+      console.log('hit new collection')
       dispatch(createCollectionBegin())
       try {
+        collection = await addEntity('collections', collection)
+        console.log('new collection created')
         dispatch(createCollectionSuccess(collection))
       } catch (exception) {
+        console.log(exception)
         dispatch(createCollectionFailure(exception))
       }
     }
-  }
+  // }
 }

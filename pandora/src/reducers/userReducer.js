@@ -16,6 +16,7 @@ const initialState = {
 const userReducer = (store = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
+      console.log('Adding current user')
       return {
         ...store,
         currentUser: action.payload.currentUser,

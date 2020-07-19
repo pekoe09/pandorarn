@@ -1,12 +1,16 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const { wrapAsync } = require('../utils/controllerHelpers')
+const {
+  wrapAsync,
+  validateMandatoryFields,
+  validateUniqueness,
+  validateEmailForm
+} = require('../utils/controllerHelpers')
 const userRouter = require('express').Router()
 const User = require('./user')
 
 userRouter.post('/login', wrapAsync(async (req, res, next) => {
   const body = req.body
-  console.log('body:', req.body)
   const user = await User
     .findOne({ username: body.username })
     .select({
@@ -41,5 +45,33 @@ userRouter.post('/login', wrapAsync(async (req, res, next) => {
     token
   })
 }))
+
+userRouter.post('/register', wrapAsync(async (req, res, next) => {
+  const body = req.body
+  const mandatories = ['email', 'lastName', 'firstName', 'psw']
+  validateMandatoryFields(req, mandatories, 'User', 'register')
+  await validateUniqueness(User, 'user', 'username', req.body.email)
+  validateEmailForm(req.body.email)
+
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(body.psw, saltRounds)
+
+  let user = new User({
+    username: body.email,
+    passwordHash,
+    lastName: body.lastName,
+    firstNames: body.firstName,
+    email: body.email,
+    userRights: []
+  })
+
+  user = await user.save()
+  delete user.passwordHash
+  res.status(201).json(user)
+}))
+
+// userRouter.put(':/id', wrapAsync(async (req, res, next) => {
+
+// }))
 
 module.exports = userRouter

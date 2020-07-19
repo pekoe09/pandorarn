@@ -1,6 +1,7 @@
 import {
   login,
   logout,
+  register,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_SUCCESS,
@@ -33,6 +34,7 @@ export {
   saveCollection,
   login,
   logout,
+  register,
   CATEGORY_CREATE_BEGIN,
   CATEGORY_CREATE_SUCCESS,
   CATEGORY_CREATE_FAILURE,

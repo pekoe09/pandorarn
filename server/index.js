@@ -26,6 +26,7 @@ app.use('/api/images', imageRouter)
 app.use('/api/sets', setRouter)
 app.use('/api/slots', slotRouter)
 app.use('/api/users', userRouter)
+//app.use('/api/userrights', userRightRouter)
 app.use('/api/venues', venueRouter)
 
 app.use(express.static('/pandora/public'))
@@ -38,6 +39,7 @@ app.get('*', (req, res) => {
 })
 
 app.use((err, req, res, next) => {
+  console.log('General call', req.body)
   console.log(err.message)
   if (err.isBadRequest) {
     res.status(400).json({ error: err.message })
@@ -53,7 +55,7 @@ app.use((err, req, res, next) => {
 const server = http.createServer(app)
 
 server.listen(config.port, () => {
-  console.log(`Server running on port ${config.port}`)
+  console.log(`Server running on port ${config.port} (userrights branch)`)
 })
 
 server.on('close', () => {

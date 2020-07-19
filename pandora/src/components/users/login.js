@@ -56,7 +56,7 @@ class Login extends React.Component {
             type='submit'
             onClick={this.handleSubmit}
           >
-            Login
+            Sign in
           </Button>
         </FormGroup>
       </Form>
