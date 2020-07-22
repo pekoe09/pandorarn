@@ -24,6 +24,7 @@ const Layout = (props) => {
     <>
       <MainBar
         currentUser={props.currentUser}
+        currentCollection={props.currentCollection}
         collections={props.collections}
         handleNewCollection={toggleEditCollection}
         handleRegistration={toggleRegistration}

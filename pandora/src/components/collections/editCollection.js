@@ -4,12 +4,19 @@ import PropTypes from 'prop-types'
 import { Modal, Form } from '../common'
 import { FormButtons } from '../common'
 import { saveCollection } from '../../actions'
+import CustomFieldCreation from './customFieldCreation'
+import CustomFieldItem from './customFieldItem'
 
 const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection }) => {
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')
-  const [touched, setTouched] = useState({ name: false })
+  const [gradeType, setGradeType] = useState('')
+  const [customFields, setCustomFields] = useState([])
+  const [touched, setTouched] = useState({
+    name: false,
+    gradeType: false
+  })
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
@@ -20,7 +27,9 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
     event.preventDefault()
     const collection = {
       id,
-      name
+      name,
+      gradeType,
+      customFields
     }
     await saveCollection(collection)
     if (!error) {
@@ -33,6 +42,43 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
     setName(event.target.value)
   }
 
+  const handleGradeTypeChange = event => {
+    setGradeType(event.target.value)
+  }
+
+  const handleAddCustomField = newField => {
+    const newFieldSet = [...customFields]
+    newFieldSet.push(newField)
+    setCustomFields(newFieldSet)
+    console.log('Fields: ', customFields)
+  }
+
+  const handleRemoveCustomField = deleteField => {
+    const newFieldSet = customFields.filter(f => f.name === deleteField.name)
+    setCustomFields(newFieldSet)
+  }
+
+  const getCustomFieldItems = () => {
+    console.log('listing custom fields')
+    if (!customFields || customFields.length === 0) {
+      console.log('no fields found')
+      return (
+        <div
+          style={{
+            marginTop: 5,
+            marginBottom: 5,
+            color: 'darkgrey',
+            fontStyle: 'italic'
+          }}
+        >
+          <span>No custom fields added</span>
+        </div>
+      )
+    } else {
+      return customFields.map(f => <CustomFieldItem key={f.name} name={f.name} type={f.type} />)
+    }
+  }
+
   const handleBlur = field => {
     setTouched({ ...touched, [field]: true })
   }
@@ -40,6 +86,8 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
   const clearState = () => {
     setName('')
     setId('')
+    setGradeType('')
+    setCustomFields([])
   }
 
   const handleCancel = () => {
@@ -51,6 +99,8 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
     if (collection) {
       setId(collection.id)
       setName(collection.name)
+      setGradeType(collection.gradeType)
+      setCustomFields(collection.customFields)
     }
   }
 
@@ -60,7 +110,8 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
 
   const validate = () => {
     return {
-      name: !name
+      name: !name,
+      gradeType: true
     }
   }
 
@@ -97,7 +148,14 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
               isInvalid={getValidationState(errors, 'name')}
             />
           </Form.Group>
+          <Form.Label>Custom fields</Form.Label>
         </Form>
+
+        <CustomFieldCreation
+          collectionId={id}
+          handleSave={handleAddCustomField}
+        />
+        {customFields && getCustomFieldItems()}
         <FormButtons
           handleSave={handleSave}
           handleCancel={handleCancel}
@@ -117,7 +175,7 @@ export default connect(
 
 EditCollection.propTypes = {
   collection: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }),
   isOpen: PropTypes.bool.isRequired,

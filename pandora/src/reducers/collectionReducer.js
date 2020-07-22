@@ -9,33 +9,34 @@ import {
 } from '../actions'
 
 const initialState = {
-  items: [
-    {
-      name: 'Medals', id: '1',
-      categories: [
-        {
-          name: 'France',
-          id: 1,
-          categories: [
-            { name: "Legion d'Honneur", id: '1' },
-            {
-              name: 'Campaign Medals',
-              id: 2,
-              categories: [
-                { name: 'Pre-WWI', id: '3' },
-                { name: 'WWI', id: '4' }
-              ]
-            },
-            { name: 'Croix de Guerre', id: '3' }
-          ]
-        },
-        { name: 'Sweden', id: '2' },
-        { name: 'Albania', id: '3' }
-      ]
-    },
-    { name: 'Bank notes', id: '2' },
-    { name: 'Badges', id: '3' }
-  ],
+  // items: [
+  //   {
+  //     name: 'Medals', id: '1',
+  //     categories: [
+  //       {
+  //         name: 'France',
+  //         id: 1,
+  //         categories: [
+  //           { name: "Legion d'Honneur", id: '1' },
+  //           {
+  //             name: 'Campaign Medals',
+  //             id: 2,
+  //             categories: [
+  //               { name: 'Pre-WWI', id: '3' },
+  //               { name: 'WWI', id: '4' }
+  //             ]
+  //           },
+  //           { name: 'Croix de Guerre', id: '3' }
+  //         ]
+  //       },
+  //       { name: 'Sweden', id: '2' },
+  //       { name: 'Albania', id: '3' }
+  //     ]
+  //   },
+  //   { name: 'Bank notes', id: '2' },
+  //   { name: 'Badges', id: '3' }
+  // ],
+  items: [],
   currentCollection: null,
   creatingCollection: false,
   updatingCollection: false,
@@ -48,7 +49,7 @@ const collectionReducer = (store = initialState, action) => {
       console.log('collection changed', action.payload.collectionId, store.items)
       return {
         ...store,
-        currentCollection: store.items.find(c => c.id.toString() === action.payload.collectionId)
+        currentCollection: store.items.find(c => c._id.toString() === action.payload.collectionId)
       }
     case COLLECTION_CREATE_BEGIN:
       return {
@@ -79,7 +80,7 @@ const collectionReducer = (store = initialState, action) => {
     case COLLECTION_UPDATE_SUCCESS:
       return {
         ...store,
-        items: store.items.map(c => c.id === action.payload.collection.id
+        items: store.items.map(c => c._id === action.payload.collection._id
           ? action.payload.collection : c),
         updatingCollection: false,
         collectionError: null

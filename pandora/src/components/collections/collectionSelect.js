@@ -3,11 +3,17 @@ import { connect } from 'react-redux'
 import { Form } from 'react-bootstrap'
 import { changeCollection } from '../../actions'
 
-const getOptions = (collections) => {
-  return collections.map(c => <option value={c.id} key={c.id}>{c.name}</option>)
+const getOptions = (collections, currentCollection) => {
+  return collections.map(c => {
+    if (currentCollection && c._id === currentCollection._id) {
+      return <option value={c._id} key={c._id} selected>{c.name}</option>
+    } else {
+      return <option value={c._id} key={c._id}>{c.name}</option>
+    }
+  })
 }
 
-const CollectionSelect = ({ collections, changeCollection }) => {
+const CollectionSelect = ({ collections, currentCollection, changeCollection }) => {
   return (
     <Form inline>
       <Form.Group>
@@ -17,7 +23,7 @@ const CollectionSelect = ({ collections, changeCollection }) => {
           onChange={(e) => changeCollection(e.target.value)}
         >
           <option>Select collection</option>
-          {collections && getOptions(collections)}
+          {collections && getOptions(collections, currentCollection)}
         </Form.Control>
       </Form.Group>
     </Form>

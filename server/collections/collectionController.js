@@ -29,6 +29,7 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
     userRights: [],
     sets: [],
     slots: [],
+    customFields: req.body.customFields,
     metaData: getMetaData(req)
   })
   console.log('collection to be saved', collection)
