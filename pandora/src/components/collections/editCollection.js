@@ -11,10 +11,12 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
   const [gradeType, setGradeType] = useState('')
   const [customFields, setCustomFields] = useState([])
   const [touched, setTouched] = useState({
     name: false,
+    description: false,
     gradeType: false
   })
   const [errors, setErrors] = useState({})
@@ -26,8 +28,9 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
   const handleSave = async (event) => {
     event.preventDefault()
     const collection = {
-      id,
+      _id: id,
       name,
+      description,
       gradeType,
       customFields
     }
@@ -42,6 +45,10 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
     setName(event.target.value)
   }
 
+  const handleDescriptionChange = event => {
+    setDescription(event.target.value)
+  }
+
   const handleGradeTypeChange = event => {
     setGradeType(event.target.value)
   }
@@ -53,8 +60,8 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
     console.log('Fields: ', customFields)
   }
 
-  const handleRemoveCustomField = deleteField => {
-    const newFieldSet = customFields.filter(f => f.name === deleteField.name)
+  const handleRemoveCustomField = fieldName => {
+    const newFieldSet = customFields.filter(f => f.name !== fieldName)
     setCustomFields(newFieldSet)
   }
 
@@ -75,7 +82,12 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
         </div>
       )
     } else {
-      return customFields.map(f => <CustomFieldItem key={f.name} name={f.name} type={f.type} />)
+      return customFields.map(f =>
+        <CustomFieldItem
+          name={f.name}
+          type={f.type}
+          handleRemove={handleRemoveCustomField}
+        />)
     }
   }
 
@@ -85,6 +97,7 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
 
   const clearState = () => {
     setName('')
+    setDescription('')
     setId('')
     setGradeType('')
     setCustomFields([])
@@ -97,8 +110,9 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
 
   const handleEnter = () => {
     if (collection) {
-      setId(collection.id)
+      setId(collection._id)
       setName(collection.name)
+      setDescription(collection.description)
       setGradeType(collection.gradeType)
       setCustomFields(collection.customFields)
     }
@@ -111,7 +125,8 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
   const validate = () => {
     return {
       name: !name,
-      gradeType: true
+      description: false,
+      gradeType: false
     }
   }
 
@@ -122,6 +137,8 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
       return null
     }
   }
+
+  //const saveIsDisabled = Object.keys(errors).some(x => errors[x])
 
   return (
     <Modal
@@ -148,6 +165,17 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
               isInvalid={getValidationState(errors, 'name')}
             />
           </Form.Group>
+          <Form.Group controlId='description'>
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              type='text'
+              name='description'
+              value={description}
+              onChange={handleDescriptionChange}
+              onBlur={handleBlur}
+              isInvalid={getValidationState(errors, 'description')}
+            />
+          </Form.Group>
           <Form.Label>Custom fields</Form.Label>
         </Form>
 
@@ -159,7 +187,7 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
         <FormButtons
           handleSave={handleSave}
           handleCancel={handleCancel}
-          saveIsDisabled={false}
+          saveIsDisabled={Object.keys(errors).some(x => errors[x])}
         />
       </Modal.Body>
     </Modal>
@@ -177,6 +205,8 @@ EditCollection.propTypes = {
   collection: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    gradeType: PropTypes.string
   }),
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,

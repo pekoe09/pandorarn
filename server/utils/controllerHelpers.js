@@ -1,3 +1,5 @@
+const { UserRight } = require('../users')
+
 const wrapAsync = (fn) => {
   return function (req, res, next) {
     fn(req, res, next).catch(next)
@@ -26,6 +28,29 @@ const getMetaData = (req, old) => {
       ...old,
       edited: { user, time }
     }
+  }
+}
+
+const validateUserRights = async (req, collectionId, level) => {
+  console.log('querying userrights', req.user, collectionId)
+  const userRight = await UserRight.find({ user: req.user._id, panCollection: collectionId })
+  let hasRight = false
+  switch (userRight) {
+    case 'superadmin':
+      hasRight = true
+    case 'admin':
+      hasRight = (level === 'superadmin') ? false : true
+    case 'user':
+      hasRight = ((level === 'superadmin') || (level === 'admin')) ? false : true
+    case 'guest':
+      hasRight = (level === 'guest') ? true : false
+    default:
+      hasRight = false
+  }
+  if (!hasRight) {
+    let err = new Error(`Operation on collection ${collectionId} requires ${level} rights for user ${req.user.username}`)
+    err.isUnauthorizedAttempt = true
+    throw err
   }
 }
 
@@ -149,6 +174,7 @@ module.exports = {
   wrapAsync,
   checkUser,
   getMetaData,
+  validateUserRights,
   validateMandatoryField,
   validateMandatoryFields,
   validateNonNegativeFields,

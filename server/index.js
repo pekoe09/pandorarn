@@ -63,6 +63,9 @@ server.on('close', () => {
   mongo.close()
 })
 
+// Catcher for possible errors leading to promise being rejected; to prevent future crashes.
+process.on('unhandledRejection', err => { console.log(err) })
+
 module.exports = {
   app,
   server

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Form } from '../common'
 import { Button } from 'react-bootstrap'
 
-const CustomFieldCreation = ({ existingField, collectionId, handleSave }) => {
+const CustomFieldCreation = ({ existingField, collectionId, handleSave, error }) => {
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')
@@ -38,7 +38,13 @@ const CustomFieldCreation = ({ existingField, collectionId, handleSave }) => {
     }
     console.log('saving', fieldInfo)
     handleSave(fieldInfo)
-    clearState()
+    if (!error) {
+      clearState()
+    } else {
+      setErrors({
+        name: true
+      })
+    }
   }
 
   const handleNameChange = event => {
@@ -62,7 +68,7 @@ const CustomFieldCreation = ({ existingField, collectionId, handleSave }) => {
   const validate = () => {
     return {
       name: !name,
-      type: true
+      type: false
     }
   }
 
@@ -121,5 +127,6 @@ CustomFieldCreation.propTypes = {
     type: PropTypes.string.isRequired
   }),
   collectionId: PropTypes.string.isRequired,
-  handleSave: PropTypes.func.isRequired
+  handleSave: PropTypes.func.isRequired,
+  error: PropTypes.string
 }

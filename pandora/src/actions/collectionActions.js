@@ -55,16 +55,17 @@ export const changeCollection = collectionId => {
 export const saveCollection = collection => {
   console.log('action to save', collection)
   return async (dispatch) => {
-    // if (collection.id) {
-    //   dispatch(updateCollectionBegin())
-    //   try {
-    //     collection = await updateEntity('collections', collection)
-    //     console.log('dispatching success')
-    //     dispatch(updateCollectionSuccess(collection))
-    //   } catch (exception) {
-    //     dispatch(updateCollectionFailure(exception))
-    //   }
-    // } else {
+    if (collection._id) {
+      console.log('hit existing collection')
+      dispatch(updateCollectionBegin())
+      try {
+        collection = await updateEntity('collections', collection)
+        console.log('dispatching success')
+        dispatch(updateCollectionSuccess(collection))
+      } catch (exception) {
+        dispatch(updateCollectionFailure(exception))
+      }
+    } else {
       console.log('hit new collection')
       dispatch(createCollectionBegin())
       try {
@@ -76,5 +77,5 @@ export const saveCollection = collection => {
         dispatch(createCollectionFailure(exception))
       }
     }
-  // }
+  }
 }

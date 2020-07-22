@@ -2,6 +2,7 @@ const {
   wrapAsync,
   checkUser,
   getMetaData,
+  validateUserRights,
   validateMandatoryFields,
   validateUniqueness,
   findObjectById
@@ -60,11 +61,13 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
 collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
   validateMandatoryFields(req, ['name'], 'collection', 'update')
-  let collection = await findObjectById(req.params.id, PanCollection, 'collection')
+  let collection = await findObjectById(req.params._id, PanCollection, 'collection')
+  await validateUserRights(req, collection._id)
   await validateUniqueness(PanCollection, 'collection', 'name', req.body.name, collection._id)
 
   collection.name = req.body.name
   collection.description = req.body.description
+  collection.customFields = req.body.customFields
   collection.metaData = getMetaData(req, collection.metaData)
   collection = await PanCollection.findByIdAndUpdate(collection._id, collection, { new: true })
 
