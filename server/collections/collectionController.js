@@ -12,6 +12,7 @@ const PanCollection = require('./panCollection')
 const { User, UserRight } = require('../users')
 
 collectionRouter.get('/', wrapAsync(async (req, res, next) => {
+  console.log('received get query', req.body)
   const collections = await PanCollection
     .find({})
     .sort('name')

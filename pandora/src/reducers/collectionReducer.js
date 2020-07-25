@@ -3,6 +3,9 @@ import {
   COLLECTION_CREATE_BEGIN,
   COLLECTION_CREATE_SUCCESS,
   COLLECTION_CREATE_FAILURE,
+  COLLECTION_READ_BEGIN,
+  COLLECTION_READ_SUCCESS,
+  COLLECTION_READ_FAILURE,
   COLLECTION_UPDATE_BEGIN,
   COLLECTION_UPDATE_SUCCESS,
   COLLECTION_UPDATE_FAILURE,
@@ -10,6 +13,7 @@ import {
   COLLECTION_DELETE_SUCCESS,
   COLLECTION_DELETE_FAILURE
 } from '../actions'
+import { get } from 'mongoose'
 
 const initialState = {
   // items: [
@@ -41,6 +45,7 @@ const initialState = {
   // ],
   items: [],
   currentCollection: null,
+  gettingCollections: false,
   creatingCollection: false,
   updatingCollection: false,
   deletingCollection: false,
@@ -73,6 +78,25 @@ const collectionReducer = (store = initialState, action) => {
       return {
         ...store,
         creatingCollection: false,
+        collectionError: action.payload.error
+      }
+    case COLLECTION_READ_BEGIN:
+      return {
+        ...store,
+        gettingCollections: true,
+        collectionError: false
+      }
+    case COLLECTION_READ_SUCCESS:
+      return {
+        ...store,
+        items: action.payload.collections,
+        gettingCollections: false,
+        collectionError: false
+      }
+    case COLLECTION_READ_FAILURE:
+      return {
+        ...store,
+        gettingCollections: false,
         collectionError: action.payload.error
       }
     case COLLECTION_UPDATE_BEGIN:

@@ -3,6 +3,9 @@ import {
   attemptLogout,
   attemptRegister
 } from '../services'
+import {
+  getCollections
+} from './index'
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
@@ -50,8 +53,8 @@ export const login = (credentials) => {
       //   level: 'admin'
       // }
       const currentUser = await attemptLogin(credentials)
-      // TODO: call entityservices to initialize data      
       dispatch(loginSuccess(currentUser))
+      dispatch(getCollections())
     } catch (exception) {
       console.log(exception)
       dispatch(loginFailure(exception))

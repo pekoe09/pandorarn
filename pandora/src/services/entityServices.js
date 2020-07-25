@@ -14,6 +14,7 @@ const getOne = async (entityPlural, id) => {
 }
 
 const getAll = async (entityPlural) => {
+  console.log('Getting (entityservices.js)', entityPlural)
   const response = await axios.get(`${baseUrl}/${entityPlural}`)
   return response.data
 }
