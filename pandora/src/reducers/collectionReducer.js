@@ -13,7 +13,6 @@ import {
   COLLECTION_DELETE_SUCCESS,
   COLLECTION_DELETE_FAILURE
 } from '../actions'
-import { get } from 'mongoose'
 
 const initialState = {
   // items: [

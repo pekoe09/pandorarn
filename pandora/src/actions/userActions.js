@@ -4,7 +4,8 @@ import {
   attemptRegister
 } from '../services'
 import {
-  getCollections
+  getCollections,
+  getGradings
 } from './index'
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -55,6 +56,7 @@ export const login = (credentials) => {
       const currentUser = await attemptLogin(credentials)
       dispatch(loginSuccess(currentUser))
       dispatch(getCollections())
+      dispatch(getGradings())
     } catch (exception) {
       console.log(exception)
       dispatch(loginFailure(exception))
