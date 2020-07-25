@@ -60,15 +60,19 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
 
 collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
+  console.log('update call', req.body)
   validateMandatoryFields(req, ['name'], 'collection', 'update')
-  let collection = await findObjectById(req.params._id, PanCollection, 'collection')
-  await validateUserRights(req, collection._id)
+  let collection = await findObjectById(req.params.id, PanCollection, 'collection')
+  console.log('validating user rights')
+  await validateUserRights(req, collection._id, 'admin')
+  console.log('user rights validated')
   await validateUniqueness(PanCollection, 'collection', 'name', req.body.name, collection._id)
 
   collection.name = req.body.name
   collection.description = req.body.description
   collection.customFields = req.body.customFields
   collection.metaData = getMetaData(req, collection.metaData)
+  console.log('saving update', collection)
   collection = await PanCollection.findByIdAndUpdate(collection._id, collection, { new: true })
 
   res.status(201).json(collection)

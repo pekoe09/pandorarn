@@ -1,4 +1,4 @@
-const { UserRight } = require('../users')
+const UserRight = require('../users/userright')
 
 const wrapAsync = (fn) => {
   return function (req, res, next) {
@@ -32,18 +32,23 @@ const getMetaData = (req, old) => {
 }
 
 const validateUserRights = async (req, collectionId, level) => {
-  console.log('querying userrights', req.user, collectionId)
-  const userRight = await UserRight.find({ user: req.user._id, panCollection: collectionId })
+  //console.log('querying userrights', req.user.username, collectionId, level)
+  const userRight = await UserRight.findOne({ user: req.user._id, panCollection: collectionId })
+  // console.log('found rights', userRight)
   let hasRight = false
-  switch (userRight) {
+  switch (userRight.rightLevel) {
     case 'superadmin':
       hasRight = true
+      break
     case 'admin':
       hasRight = (level === 'superadmin') ? false : true
+      break
     case 'user':
       hasRight = ((level === 'superadmin') || (level === 'admin')) ? false : true
+      break
     case 'guest':
       hasRight = (level === 'guest') ? true : false
+      break
     default:
       hasRight = false
   }
