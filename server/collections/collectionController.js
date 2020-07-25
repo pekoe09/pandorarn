@@ -80,7 +80,11 @@ collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
 
 collectionRouter.delete('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
+  console.log('deletion request for', req.params.id)
   let collection = await findObjectById(req.params.id, PanCollection, 'collection')
+  console.log('validating user rights')
+  await validateUserRights(req, collection._id, 'admin')
+  console.log('user rights validated')
 
   if (collection.slots.length > 0) {
     res.status(403).json({

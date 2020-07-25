@@ -5,7 +5,10 @@ import {
   COLLECTION_CREATE_FAILURE,
   COLLECTION_UPDATE_BEGIN,
   COLLECTION_UPDATE_SUCCESS,
-  COLLECTION_UPDATE_FAILURE
+  COLLECTION_UPDATE_FAILURE,
+  COLLECTION_DELETE_BEGIN,
+  COLLECTION_DELETE_SUCCESS,
+  COLLECTION_DELETE_FAILURE
 } from '../actions'
 
 const initialState = {
@@ -40,6 +43,7 @@ const initialState = {
   currentCollection: null,
   creatingCollection: false,
   updatingCollection: false,
+  deletingCollection: false,
   collectionError: null
 }
 
@@ -89,6 +93,25 @@ const collectionReducer = (store = initialState, action) => {
       return {
         ...store,
         updatingCollection: false,
+        collectionError: action.payload.error
+      }
+    case COLLECTION_DELETE_BEGIN:
+      return {
+        ...store,
+        deletingCollection: true,
+        collectionError: null
+      }
+    case COLLECTION_DELETE_SUCCESS:
+      return {
+        ...store,
+        items: store.items.filter(c => c._id !== action.payload.collectionId),
+        deletingCollection: false,
+        collectionError: null
+      }
+    case COLLECTION_DELETE_FAILURE:
+      return {
+        ...store,
+        deletingCollection: false,
         collectionError: action.payload.error
       }
     default:

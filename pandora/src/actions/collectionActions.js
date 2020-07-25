@@ -11,6 +11,9 @@ export const COLLECTION_CREATE_FAILURE = 'COLLECTION_CREATE_FAILURE'
 export const COLLECTION_UPDATE_BEGIN = 'COLLECTION_UPDATE_BEGIN'
 export const COLLECTION_UPDATE_SUCCESS = 'COLLECTION_UPDATE_SUCCESS'
 export const COLLECTION_UPDATE_FAILURE = 'COLLECTION_UPDATE_FAILURE'
+export const COLLECTION_DELETE_BEGIN = 'COLLECTION_DELETE_BEGIN'
+export const COLLECTION_DELETE_SUCCESS = 'COLLECTION_DELETE_SUCCESS'
+export const COLLECTION_DELETE_FAILURE = 'COLLECTION_DELETE_FAILURE'
 export const COLLECTION_CHANGED = 'COLLECTION_CHANGED'
 
 export const createCollectionBegin = () => ({
@@ -38,6 +41,20 @@ export const updateCollectionSuccess = collection => ({
 
 export const updateCollectionFailure = error => ({
   type: COLLECTION_UPDATE_FAILURE,
+  payload: { error }
+})
+
+export const collectionDeleteBegin = () => ({
+  type: COLLECTION_DELETE_BEGIN
+})
+
+export const collectionDeleteSuccess = collectionId => ({
+  type: COLLECTION_DELETE_SUCCESS,
+  payload: { collectionId }
+})
+
+export const collectionDeleteFailure = error => ({
+  type: COLLECTION_DELETE_FAILURE,
   payload: { error }
 })
 
@@ -76,6 +93,20 @@ export const saveCollection = collection => {
         console.log(exception)
         dispatch(createCollectionFailure(exception))
       }
+    }
+  }
+}
+
+export const deleteCollection = collectionId => {
+  console.log('action to delete', collectionId)
+  return async (dispatch) => {
+    dispatch(collectionDeleteBegin())
+    try {
+      await removeEntity('collections', collectionId)
+      dispatch(collectionDeleteSuccess(collectionId))
+    } catch (exception) {
+      console.log(exception)
+      dispatch(collectionDeleteFailure(exception))
     }
   }
 }

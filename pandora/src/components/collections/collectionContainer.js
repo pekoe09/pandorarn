@@ -1,21 +1,31 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import {
+  changeCollection,
+  deleteCollection
+} from '../../actions'
 import {
   CollectionHeader,
   EditCollection
 } from './index'
 import { CategoryListings } from '../categories'
 
-const CollectionContainer = ({ collection }) => {
+const CollectionContainer = ({ collection, changeCollection, deleteCollection, error }) => {
 
   const [editCollectionIsOpen, setEditCollectionIsOpen] = useState(false)
 
-  const toggleEditCollection = (collection) => {
+  const toggleEditCollection = () => {
     setEditCollectionIsOpen(!editCollectionIsOpen)
   }
 
-  const handleDeleteCollection = (collectionId) => {
-    console.log('deleting colection', collectionId)
+  const handleDeleteCollection = async () => {
+    console.log('deleting collection', collection._id)
+    await deleteCollection(collection._id)
+    if (!error) {
+      console.log('changing collection?')
+      changeCollection()
+    }
   }
 
   const handleAddCategory = () => {
@@ -112,7 +122,18 @@ const CollectionContainer = ({ collection }) => {
   )
 }
 
-export default CollectionContainer
+const mapStateToProps = store => ({
+  deletingCollection: store.collections.deletingCollection,
+  error: store.collections.collectionError
+})
+
+export default connect(
+  mapStateToProps,
+  {
+    changeCollection,
+    deleteCollection
+  }
+)(CollectionContainer)
 
 CollectionContainer.propTypes = {
   collection: PropTypes.shape({
@@ -122,5 +143,6 @@ CollectionContainer.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }))
-  })
+  }),
+  deleteCollection: PropTypes.func.isRequired
 }
