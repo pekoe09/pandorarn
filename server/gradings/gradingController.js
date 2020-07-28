@@ -23,6 +23,7 @@ gradingRouter.post('/', wrapAsync(async (req, res, next) => {
   let grading = new Grading({
     name: req.body.name,
     description: req.body.description,
+    grades: req.body.grades,
     owner: req.user,
     metadata: getMetaData(req)
   })

@@ -1,6 +1,21 @@
 const mongoose = require('mongoose')
 const metaDataSchema = require('../utils/metaData')
 
+const gradeSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  abbreviation: {
+    type: String,
+    required: true
+  },
+  ordinality: {
+    type: Number,
+    required: true
+  }
+})
+
 const gradingSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -10,6 +25,7 @@ const gradingSchema = new mongoose.Schema({
   description: {
     type: String
   },
+  grades: [gradeSchema],
   metaData: metaDataSchema
 })
 
