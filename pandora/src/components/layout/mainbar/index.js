@@ -1,3 +1,3 @@
 import MainBar from './mainBar'
 
-export default MainBar
+export { MainBar }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Form } from '../common'
 import { Button } from 'react-bootstrap'
 
-const GradeCreation = ({ existingField, collectionId, handleSave, error }) => {
+const GradeCreation = ({ existingGrade, handleSave, error }) => {
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')

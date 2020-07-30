@@ -6,7 +6,13 @@ import { saveGrading, getGradings } from '../../actions'
 import GradeItem from './gradeItem'
 import GradeCreation from './gradeCreation'
 
-const EditGrading = ({ isOpen, closeModal, error, grading, saveGrading }) => {
+const EditGrading = ({
+  isOpen,
+  closeModal,
+  error,
+  grading,
+  handleSave
+}) => {
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')
@@ -31,8 +37,10 @@ const EditGrading = ({ isOpen, closeModal, error, grading, saveGrading }) => {
   }
 
   const handleAddGrade = newGrade => {
-    const newGrades = [...grades]
+    let newGrades = [...grades]
     newGrades.push(newGrade)
+    newGrades = newGrades.sort((a, b) => (a.ordinality > b.ordinality) ? 1 : -1)
+    console.log('sorted', newGrades)
     setGrades(newGrades)
   }
 
@@ -83,11 +91,11 @@ const EditGrading = ({ isOpen, closeModal, error, grading, saveGrading }) => {
   }
 
   const handleEnter = () => {
-    if (collection) {
-      setId(collection._id)
-      setName(collection.name)
-      setDescription(collection.description)
-      setGrades(collection.customFields)
+    if (grading) {
+      setId(grading._id)
+      setName(grading.name)
+      setDescription(grading.description)
+      setGrades(grading.grades)
     }
   }
 
@@ -182,5 +190,6 @@ EditGrading.propTypes = {
       abbreviation: PropTypes.string.isRequired,
       ordinality: PropTypes.number.isRequired
     })]
-  })
+  }),
+  handleSave: PropTypes.func.isRequired
 }
