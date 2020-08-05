@@ -1,5 +1,6 @@
 const {
   wrapAsync,
+  checkUser,
   validateMandatoryFields,
   validateUniqueness,
   getMetaData

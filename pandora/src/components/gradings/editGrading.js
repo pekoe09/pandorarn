@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal, Form, FormButtons } from '../common'
-import { saveGrading, getGradings } from '../../actions'
 import GradeItem from './gradeItem'
 import GradeCreation from './gradeCreation'
 
@@ -11,7 +10,7 @@ const EditGrading = ({
   closeModal,
   error,
   grading,
-  handleSave
+  attemptSave
 }) => {
 
   const [id, setId] = useState('')
@@ -40,7 +39,6 @@ const EditGrading = ({
     let newGrades = [...grades]
     newGrades.push(newGrade)
     newGrades = newGrades.sort((a, b) => (a.ordinality > b.ordinality) ? 1 : -1)
-    console.log('sorted', newGrades)
     setGrades(newGrades)
   }
 
@@ -83,6 +81,21 @@ const EditGrading = ({
     setName('')
     setDescription('')
     setGrades([])
+  }
+
+  const handleSave = async (event) => {
+    event.preventDefault()
+    const grading = {
+      _id: id,
+      name,
+      description,
+      grades
+    }
+    await attemptSave(grading)
+    if (!error) {
+      clearState()
+      closeModal()
+    }
   }
 
   const handleCancel = () => {
@@ -172,12 +185,7 @@ const EditGrading = ({
 
 }
 
-export default connect(
-  null,
-  {
-    saveGrading
-  }
-)(EditGrading)
+export default EditGrading
 
 EditGrading.propTypes = {
   grading: PropTypes.shape({
@@ -191,5 +199,5 @@ EditGrading.propTypes = {
       ordinality: PropTypes.number.isRequired
     })]
   }),
-  handleSave: PropTypes.func.isRequired
+  attemptSave: PropTypes.func.isRequired
 }

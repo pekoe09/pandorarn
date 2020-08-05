@@ -13,7 +13,7 @@ const GradingItem = ({ grading, handleClick, handleDeleteRequest }) => {
   return (
     <div
       style={gradingItemStyle}
-      onClick={() => handleClick(grading._id)}
+      onClick={() => handleClick(grading)}
     >
       <Row>
         <Col md={10}>

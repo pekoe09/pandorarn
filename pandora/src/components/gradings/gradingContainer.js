@@ -33,8 +33,18 @@ const GradingContainer = ({
     setModalError(null)
   }
 
-  const handleSave = async grading => {
+  const handleGradingClick = grading => {
+    setItemToEdit(grading)
+    setModalError(null)
+    setEditModalIsOpen(true)
+  }
+
+  const attemptSave = async grading => {
     console.log('saving grading', grading)
+    await saveGrading(grading)
+    if (error) {
+      setModalError('Save resulted in error:', error)
+    }
   }
 
   const handleDeleteRequest = (grading, e) => {
@@ -49,7 +59,7 @@ const GradingContainer = ({
     <>
       <GradingList
         gradings={gradings}
-        handleClick={toggleEditModal}
+        handleClick={handleGradingClick}
         handleAdd={toggleEditModal}
         handleDeleteRequest={handleDeleteRequest}
       />
@@ -59,7 +69,7 @@ const GradingContainer = ({
         closeModal={toggleEditModal}
         error={modalError}
         grading={itemToEdit}
-        handleSave={handleSave}
+        attemptSave={attemptSave}
       />
     </>
   )
