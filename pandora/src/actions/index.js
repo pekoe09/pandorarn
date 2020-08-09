@@ -8,13 +8,21 @@ import {
   LOGOUT_FAILURE
 } from './userActions'
 import {
+  getCategories,
   saveCategory,
+  deleteCategory,
   CATEGORY_CREATE_BEGIN,
   CATEGORY_CREATE_SUCCESS,
   CATEGORY_CREATE_FAILURE,
+  CATEGORY_READ_BEGIN,
+  CATEGORY_READ_SUCCESS,
+  CATEGORY_READ_FAILURE,
   CATEGORY_UPDATE_BEGIN,
   CATEGORY_UPDATE_SUCCESS,
   CATEGORY_UPDATE_FAILURE,
+  CATEGORY_DELETE_BEGIN,
+  CATEGORY_DELETE_SUCCESS,
+  CATEGORY_DELETE_FAILURE
 } from './categoryActions'
 import {
   getCollections,
@@ -55,10 +63,12 @@ import {
 
 export {
   changeCollection,
-  getCollections,
-  saveCategory,
+  getCollections,  
   saveCollection,
   deleteCollection,
+  getCategories,
+  saveCategory,
+  deleteCategory,
   getGradings,
   saveGrading,
   deleteGrading,
@@ -68,9 +78,15 @@ export {
   CATEGORY_CREATE_BEGIN,
   CATEGORY_CREATE_SUCCESS,
   CATEGORY_CREATE_FAILURE,
+  CATEGORY_READ_BEGIN,
+  CATEGORY_READ_SUCCESS,
+  CATEGORY_READ_FAILURE,
   CATEGORY_UPDATE_BEGIN,
   CATEGORY_UPDATE_SUCCESS,
   CATEGORY_UPDATE_FAILURE,
+  CATEGORY_DELETE_BEGIN,
+  CATEGORY_DELETE_SUCCESS,
+  CATEGORY_DELETE_FAILURE,
   COLLECTION_CHANGED,
   COLLECTION_CREATE_BEGIN,
   COLLECTION_CREATE_SUCCESS,
