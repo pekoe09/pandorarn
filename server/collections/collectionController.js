@@ -69,8 +69,10 @@ collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
   console.log('user rights validated')
   await validateUniqueness(PanCollection, 'collection', 'name', req.body.name, collection._id)
 
+  console.log('received grading', req.body.grading)
   collection.name = req.body.name
   collection.description = req.body.description
+  collection.grading = req.body.grading
   collection.customFields = req.body.customFields
   collection.metaData = getMetaData(req, collection.metaData)
   console.log('saving update', collection)

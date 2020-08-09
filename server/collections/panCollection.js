@@ -21,6 +21,10 @@ const panCollectionSchema = new mongoose.Schema({
   description: {
     type: String
   },
+  grading: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Grading'
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

@@ -5,31 +5,9 @@ import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { Form } from 'react-bootstrap'
 import { changeCollection } from '../../actions'
 
-// const getOptions = (collections) => {
-//   console.log('generating options for', collections)
-//   const options = collections.map(c => { return (<option value={c._id} key={c._id}>{c.name}</option>) })
-//   // return collections.map(c => {
-//   //   return <option value={c._id} key={c._id}>{c.name}</option>
-//   //   // if (currentCollection && c._id === currentCollection._id) {
-//   //   //   return <option value={c._id} key={c._id} selected>{c.name}</option>
-//   //   // } else {
-//   //   //   return <option value={c._id} key={c._id}>{c.name}</option>
-//   //   // }
-//   // })
-//   console.log('generated', options)
-//   return options
-// }
-
 const CollectionSelect = ({ collections, currentCollection, changeCollection }) => {
-  //console.log('getting collections for select', collections)
 
-  // const [selectedCollection, setSelectedCollection] = useState([])
   const selectedCollection = currentCollection ? [currentCollection] : []
-
-  // const handleChangeCollection = (selected) => {
-  //   setSelectedCollection(selected)
-  //   changeCollection(selected)
-  // }
 
   return (
     <Form inline>
@@ -42,6 +20,7 @@ const CollectionSelect = ({ collections, currentCollection, changeCollection }) 
           labelKey='name'
           id='_id'
           maxResults={10}
+          placeholder={collections.length > 0 ? 'Select a collection' : 'No collections'}
         />
       </Form.Group>
     </Form>

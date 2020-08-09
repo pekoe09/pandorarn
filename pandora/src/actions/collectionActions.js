@@ -133,6 +133,7 @@ export const saveCollection = collection => {
         collection = await addEntity('collections', collection)
         console.log('new collection created')
         dispatch(createCollectionSuccess(collection))
+        dispatch(changeCollection(collection._id))
       } catch (exception) {
         console.log(exception)
         dispatch(createCollectionFailure(exception))

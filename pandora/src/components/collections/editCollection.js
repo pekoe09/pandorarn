@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Typeahead } from 'react-bootstrap-typeahead'
+import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { Modal, Form } from '../common'
 import { FormButtons } from '../common'
 import { saveCollection } from '../../actions'
 import CustomFieldCreation from './customFieldCreation'
 import CustomFieldItem from './customFieldItem'
 
-const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection }) => {
+const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection, gradeTypes }) => {
 
   const [id, setId] = useState('')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [gradeType, setGradeType] = useState('')
+  const [gradeType, setGradeType] = useState([])
   const [customFields, setCustomFields] = useState([])
   const [touched, setTouched] = useState({
     name: false,
@@ -31,7 +33,7 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
       _id: id,
       name,
       description,
-      gradeType,
+      grading: gradeType.length > 0 ? gradeType[0]._id : null,
       customFields
     }
     await saveCollection(collection)
@@ -109,11 +111,12 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
   }
 
   const handleEnter = () => {
+    console.log('grading on entry', collection.grading)
     if (collection) {
       setId(collection._id)
       setName(collection.name)
       setDescription(collection.description)
-      setGradeType(collection.gradeType)
+      setGradeType(collection.grading ? [gradeTypes.find(g => g._id === collection.grading)] : [])
       setCustomFields(collection.customFields)
     }
   }
@@ -176,6 +179,17 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
               isInvalid={getValidationState(errors, 'description')}
             />
           </Form.Group>
+          <Form.Group>
+            <Form.Label>Grading used</Form.Label>
+            <Typeahead
+              onChange={(selected) => { setGradeType(selected) }}
+              options={gradeTypes}
+              selected={gradeType}
+              labelKey='name'
+              id='_id'
+              maxResults={10}
+            />
+          </Form.Group>
           <Form.Label>Custom fields</Form.Label>
         </Form>
 
@@ -194,8 +208,12 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection 
   )
 }
 
+const mapStateToProps = store => ({
+  gradeTypes: store.gradings.items
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   {
     saveCollection
   }
@@ -210,5 +228,10 @@ EditCollection.propTypes = {
   }),
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  error: PropTypes.string
+  error: PropTypes.string,
+  gradeTypes: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    abbreviation: PropTypes.string.isRequired
+  })).isRequired
 }
