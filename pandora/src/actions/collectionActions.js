@@ -9,7 +9,7 @@ export const COLLECTION_CREATE_BEGIN = 'COLLECTION_CREATE_BEGIN'
 export const COLLECTION_CREATE_SUCCESS = 'COLLECTION_CREATE_SUCCESS'
 export const COLLECTION_CREATE_FAILURE = 'COLLECTION_CREATE_FAILURE'
 export const COLLECTION_READ_BEGIN = 'COLLECTION_READ_BEGIN'
-export const COLLECTION_READ_SUCCESS = 'COLLETION_READ_SUCCESS'
+export const COLLECTION_READ_SUCCESS = 'COLLECTION_READ_SUCCESS'
 export const COLLECTION_READ_FAILURE = 'COLLECTION_READ_FAILURE'
 export const COLLECTION_UPDATE_BEGIN = 'COLLECTION_UPDATE_BEGIN'
 export const COLLECTION_UPDATE_SUCCESS = 'COLLECTION_UPDATE_SUCCESS'
@@ -37,10 +37,13 @@ export const getCollectionsBegin = () => ({
   type: COLLECTION_READ_BEGIN
 })
 
-export const getCollectionsSuccess = collections => ({
-  type: COLLECTION_READ_SUCCESS,
-  payload: { collections }
-})
+export const getCollectionsSuccess = collections => {
+  console.log('getCollectionsSuccess called')
+  return {
+    type: COLLECTION_READ_SUCCESS,
+    payload: { collections }
+  }
+}
 
 export const getCollectionsFailure = error => ({
   type: COLLECTION_READ_FAILURE,
@@ -81,7 +84,9 @@ export const collectionChanged = collectionId => ({
 })
 
 export const changeCollection = collectionId => {
-  return (dispatch) => {
+  console.log('changing collection')
+  return async (dispatch) => {
+    console.log('dispatching changing collection')
     dispatch(collectionChanged(collectionId))
   }
 }
@@ -89,15 +94,19 @@ export const changeCollection = collectionId => {
 export const getCollections = () => {
   console.log('getting collections')
   return async (dispatch) => {
+    console.log('dispatching get begin')
     dispatch(getCollectionsBegin())
     try {
       const collections = await getAll('collections')
+      console.log('dispatching get success')
       dispatch(getCollectionsSuccess(collections))
       if (collections && collections.length > 0) {
+        console.log('dispatching change')
         dispatch(changeCollection(collections[0]._id))
       }
     } catch (exception) {
       console.log(exception)
+      console.log('dispatching get failure')
       dispatch(getCollectionsFailure(exception))
     }
   }
@@ -111,7 +120,7 @@ export const saveCollection = collection => {
       dispatch(updateCollectionBegin())
       try {
         collection = await updateEntity('collections', collection)
-        console.log('dispatching success')
+        console.log('dispatching save success')
         dispatch(updateCollectionSuccess(collection))
       } catch (exception) {
         console.log(exception)

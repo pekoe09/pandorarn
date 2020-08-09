@@ -63,7 +63,7 @@ export default CollectionHeader
 
 CollectionHeader.propTypes = {
   collection: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,

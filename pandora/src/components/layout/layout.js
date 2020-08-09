@@ -25,6 +25,7 @@ const Layout = (props) => {
     setRegistrationIsOpen(!registrationIsOpen)
   }
 
+  console.log('layout has collections', props.collections)
   return (
     <>
       <MainBar

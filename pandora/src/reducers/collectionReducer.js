@@ -54,19 +54,20 @@ const initialState = {
 const collectionReducer = (store = initialState, action) => {
   switch (action.type) {
     case COLLECTION_CHANGED:
-      console.log('collection changed', action.payload.collectionId, store.items)
+      console.log('hit changed', action.payload.collectionId, store.items)
       return {
         ...store,
         currentCollection: store.items.find(c => c._id.toString() === action.payload.collectionId)
       }
     case COLLECTION_CREATE_BEGIN:
+      console.log('hit start creating')
       return {
         ...store,
         creatingCollection: true,
         collectionError: null
       }
     case COLLECTION_CREATE_SUCCESS:
-      console.log('adding collection', action.payload.collection)
+      console.log('hit create success', action.payload.collection)
       return {
         ...store,
         items: store.items.concat(action.payload.collection),
@@ -74,18 +75,21 @@ const collectionReducer = (store = initialState, action) => {
         collectionError: null
       }
     case COLLECTION_CREATE_FAILURE:
+      console.log('hit create failure')
       return {
         ...store,
         creatingCollection: false,
         collectionError: action.payload.error
       }
     case COLLECTION_READ_BEGIN:
+      console.log('hit read begin')
       return {
         ...store,
         gettingCollections: true,
         collectionError: false
       }
     case COLLECTION_READ_SUCCESS:
+      console.log('hit read success', action.payload.collections)
       return {
         ...store,
         items: action.payload.collections,
@@ -93,18 +97,21 @@ const collectionReducer = (store = initialState, action) => {
         collectionError: false
       }
     case COLLECTION_READ_FAILURE:
+      console.log('hit read failure')
       return {
         ...store,
         gettingCollections: false,
         collectionError: action.payload.error
       }
     case COLLECTION_UPDATE_BEGIN:
+      console.log('hit update begin')
       return {
         ...store,
         updatingCollection: true,
         collectionError: null
       }
     case COLLECTION_UPDATE_SUCCESS:
+      console.log('hit update success', action.payload.collection, store.items)
       return {
         ...store,
         items: store.items.map(c => c._id === action.payload.collection._id
@@ -113,18 +120,21 @@ const collectionReducer = (store = initialState, action) => {
         collectionError: null
       }
     case COLLECTION_UPDATE_FAILURE:
+      console.log('hit update failure')
       return {
         ...store,
         updatingCollection: false,
         collectionError: action.payload.error
       }
     case COLLECTION_DELETE_BEGIN:
+      console.log('hit delete begin')
       return {
         ...store,
         deletingCollection: true,
         collectionError: null
       }
     case COLLECTION_DELETE_SUCCESS:
+      console.log('hit delete success', action.payload.collectionId)
       return {
         ...store,
         items: store.items.filter(c => c._id !== action.payload.collectionId),
@@ -132,12 +142,14 @@ const collectionReducer = (store = initialState, action) => {
         collectionError: null
       }
     case COLLECTION_DELETE_FAILURE:
+      console.log('hit delete failure')
       return {
         ...store,
         deletingCollection: false,
         collectionError: action.payload.error
       }
     default:
+      console.log('hit default')
       return store
   }
 }
