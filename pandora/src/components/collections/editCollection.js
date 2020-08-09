@@ -59,7 +59,6 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection,
     const newFieldSet = [...customFields]
     newFieldSet.push(newField)
     setCustomFields(newFieldSet)
-    console.log('Fields: ', customFields)
   }
 
   const handleRemoveCustomField = fieldName => {
@@ -68,9 +67,7 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection,
   }
 
   const getCustomFieldItems = () => {
-    console.log('listing custom fields')
     if (!customFields || customFields.length === 0) {
-      console.log('no fields found')
       return (
         <div
           style={{
@@ -111,7 +108,6 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection,
   }
 
   const handleEnter = () => {
-    console.log('grading on entry', collection.grading)
     if (collection) {
       setId(collection._id)
       setName(collection.name)
@@ -173,7 +169,7 @@ const EditCollection = ({ isOpen, closeModal, error, collection, saveCollection,
             <Form.Control
               type='text'
               name='description'
-              value={description}
+              value={description || ''}
               onChange={handleDescriptionChange}
               onBlur={handleBlur}
               isInvalid={getValidationState(errors, 'description')}

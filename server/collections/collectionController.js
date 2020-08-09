@@ -27,6 +27,7 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
   let collection = new PanCollection({
     name: req.body.name,
     description: req.body.description,
+    grading: req.body.grading,
     owner: req.user,
     userRights: [],
     sets: [],
