@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import MainBar from './mainbar'
-import SideBar from './sidebar'
-import { MainContainer } from './mainContainer'
+import { Route, Switch } from 'react-router-dom'
+import {
+  MainBar,
+  SideBar,
+  MainContainer,
+  AdminContainer
+} from './index'
+import { GradingContainer } from '../gradings'
 import { EditCollection } from '../collections'
 import { Register } from '../users'
 import './layout.scss'
@@ -20,10 +25,12 @@ const Layout = (props) => {
     setRegistrationIsOpen(!registrationIsOpen)
   }
 
+  console.log('layout has collections', props.collections)
   return (
     <>
       <MainBar
         currentUser={props.currentUser}
+        currentCollection={props.currentCollection}
         collections={props.collections}
         handleNewCollection={toggleEditCollection}
         handleRegistration={toggleRegistration}
@@ -35,20 +42,29 @@ const Layout = (props) => {
           minHeight: '100vh'
         }}
       >
-        <SideBar
-          collections={props.collections}
-          currentCollection={props.currentCollection}
-        />
-        <div
-          style={{
-            flexGrow: 1,
+        <Switch>
+          <Route path='/gradings'>
+            <AdminContainer>
+              <GradingContainer />
+            </AdminContainer>
+          </Route>
+          <Route path='/'>
+            <SideBar
+              collections={props.collections}
+              currentCollection={props.currentCollection}
+            />
+            <div
+              style={{
+                flexGrow: 1,
 
-          }}
-        >
-          <MainContainer
-            collection={props.currentCollection}
-          />
-        </div>
+              }}
+            >
+              <MainContainer
+                collection={props.currentCollection}
+              />
+            </div>
+          </Route>
+        </Switch>
       </div>
 
       <EditCollection

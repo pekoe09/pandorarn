@@ -5,7 +5,7 @@ import { Login, Logout } from '../../users'
 import { CollectionSelect } from '../../collections'
 import './mainbar.scss'
 
-const MainBar = ({ currentUser, collections, handleNewCollection, handleRegistration }) => {
+const MainBar = ({ currentUser, collections, currentCollection, handleNewCollection, handleRegistration }) => {
 
   const AnonymousItems = () => {
     return (
@@ -31,7 +31,10 @@ const MainBar = ({ currentUser, collections, handleNewCollection, handleRegistra
       >
         <Row>
           <NavItem>
-            <CollectionSelect collections={collections} />
+            <CollectionSelect
+              collections={collections}
+              currentCollection={currentCollection}
+            />
           </NavItem>
           <NavItem style={{ marginLeft: '10px' }}>
             <Button onClick={handleNewCollection}>New</Button>

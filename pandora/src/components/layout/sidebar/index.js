@@ -1,3 +1,3 @@
 import SideBar from './sidebar'
 
-export default SideBar
+export { SideBar }

@@ -2,6 +2,7 @@ const {
   wrapAsync,
   checkUser,
   getMetaData,
+  validateUserRights,
   validateMandatoryFields,
   validateUniqueness,
   findObjectById
@@ -11,6 +12,7 @@ const PanCollection = require('./panCollection')
 const { User, UserRight } = require('../users')
 
 collectionRouter.get('/', wrapAsync(async (req, res, next) => {
+  console.log('received get query', req.body)
   const collections = await PanCollection
     .find({})
     .sort('name')
@@ -25,10 +27,12 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
   let collection = new PanCollection({
     name: req.body.name,
     description: req.body.description,
+    grading: req.body.grading,
     owner: req.user,
     userRights: [],
     sets: [],
     slots: [],
+    customFields: req.body.customFields,
     metaData: getMetaData(req)
   })
   console.log('collection to be saved', collection)
@@ -58,13 +62,21 @@ collectionRouter.post('/', wrapAsync(async (req, res, next) => {
 
 collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
+  console.log('update call', req.body)
   validateMandatoryFields(req, ['name'], 'collection', 'update')
   let collection = await findObjectById(req.params.id, PanCollection, 'collection')
+  console.log('validating user rights')
+  await validateUserRights(req, collection._id, 'admin')
+  console.log('user rights validated')
   await validateUniqueness(PanCollection, 'collection', 'name', req.body.name, collection._id)
 
+  console.log('received grading', req.body.grading)
   collection.name = req.body.name
   collection.description = req.body.description
+  collection.grading = req.body.grading
+  collection.customFields = req.body.customFields
   collection.metaData = getMetaData(req, collection.metaData)
+  console.log('saving update', collection)
   collection = await PanCollection.findByIdAndUpdate(collection._id, collection, { new: true })
 
   res.status(201).json(collection)
@@ -72,7 +84,11 @@ collectionRouter.put('/:id', wrapAsync(async (req, res, next) => {
 
 collectionRouter.delete('/:id', wrapAsync(async (req, res, next) => {
   checkUser(req)
+  console.log('deletion request for', req.params.id)
   let collection = await findObjectById(req.params.id, PanCollection, 'collection')
+  console.log('validating user rights')
+  await validateUserRights(req, collection._id, 'admin')
+  console.log('user rights validated')
 
   if (collection.slots.length > 0) {
     res.status(403).json({

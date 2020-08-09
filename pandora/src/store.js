@@ -6,11 +6,13 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import {
   collectionReducer,
+  gradingReducer,
   userReducer
 } from './reducers'
 
 const appReducer = combineReducers({
   collections: collectionReducer,
+  gradings: gradingReducer,
   users: userReducer
 })
 

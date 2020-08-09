@@ -1,6 +1,17 @@
 const mongoose = require('mongoose')
 const metaDataSchema = require('../utils/metaData')
 
+const customFieldSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  }
+})
+
 const panCollectionSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,6 +20,10 @@ const panCollectionSchema = new mongoose.Schema({
   },
   description: {
     type: String
+  },
+  grading: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Grading'
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -39,6 +54,7 @@ const panCollectionSchema = new mongoose.Schema({
     }],
     required: true
   },
+  customFields: [customFieldSchema],
   metaData: metaDataSchema
 })
 

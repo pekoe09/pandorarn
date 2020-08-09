@@ -1,24 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { Typeahead } from 'react-bootstrap-typeahead'
+import 'react-bootstrap-typeahead/css/Typeahead.css'
 import { Form } from 'react-bootstrap'
 import { changeCollection } from '../../actions'
 
-const getOptions = (collections) => {
-  return collections.map(c => <option value={c.id} key={c.id}>{c.name}</option>)
-}
+const CollectionSelect = ({ collections, currentCollection, changeCollection }) => {
 
-const CollectionSelect = ({ collections, changeCollection }) => {
+  const selectedCollection = currentCollection ? [currentCollection] : []
+
   return (
     <Form inline>
       <Form.Group>
         <Form.Label>Collections</Form.Label>
-        <Form.Control
-          as='select'
-          onChange={(e) => changeCollection(e.target.value)}
-        >
-          <option>Select collection</option>
-          {collections && getOptions(collections)}
-        </Form.Control>
+        <Typeahead
+          onChange={(selected) => changeCollection(selected.length > 0 ? selected[0]._id : '')}
+          options={collections}
+          selected={selectedCollection}
+          labelKey='name'
+          id='_id'
+          maxResults={10}
+          placeholder={collections.length > 0 ? 'Select a collection' : 'No collections'}
+        />
       </Form.Group>
     </Form>
   )

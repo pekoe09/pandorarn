@@ -1,3 +1,5 @@
+const UserRight = require('../users/userright')
+
 const wrapAsync = (fn) => {
   return function (req, res, next) {
     fn(req, res, next).catch(next)
@@ -29,6 +31,36 @@ const getMetaData = (req, old) => {
   }
 }
 
+const validateUserRights = async (req, collectionId, level) => {
+  console.log('querying userrights', req.user.username, collectionId, level)
+  const userRight = await UserRight.findOne({ user: req.user._id, panCollection: collectionId })
+  console.log('found rights', userRight)
+  let hasRight = false
+  if (userRight) {
+    switch (userRight.rightLevel) {
+      case 'superadmin':
+        hasRight = true
+        break
+      case 'admin':
+        hasRight = (level === 'superadmin') ? false : true
+        break
+      case 'user':
+        hasRight = ((level === 'superadmin') || (level === 'admin')) ? false : true
+        break
+      case 'guest':
+        hasRight = (level === 'guest') ? true : false
+        break
+      default:
+        h
+        hasRight = false
+    }
+  }
+  if (!hasRight) {
+    let err = new Error(`Operation on collection ${collectionId} requires ${level} rights for user ${req.user.username}`)
+    err.isUnauthorizedAttempt = true
+    throw err
+  }
+}
 const validateMandatoryField = (req, fieldName, entity, operation) => {
   const fieldParts = fieldName.split('.')
   let fieldFound = false
@@ -149,6 +181,7 @@ module.exports = {
   wrapAsync,
   checkUser,
   getMetaData,
+  validateUserRights,
   validateMandatoryField,
   validateMandatoryFields,
   validateNonNegativeFields,

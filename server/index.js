@@ -10,6 +10,7 @@ const { tokenExtractor } = require('./utils/tokenExtractor')
 const { userExtractor } = require('./utils/userExtractor')
 
 const { collectionRouter } = require('./collections')
+const { gradingRouter } = require('./gradings')
 const { imageRouter } = require('./images')
 const { setRouter } = require('./sets')
 const { slotRouter } = require('./slots')
@@ -22,6 +23,7 @@ app.use(tokenExtractor)
 app.use(userExtractor)
 
 app.use('/api/collections', collectionRouter)
+app.use('/api/gradings', gradingRouter)
 app.use('/api/images', imageRouter)
 app.use('/api/sets', setRouter)
 app.use('/api/slots', slotRouter)
@@ -62,6 +64,9 @@ server.on('close', () => {
   console.log('Shutting down server')
   mongo.close()
 })
+
+// Catcher for possible errors leading to promise being rejected; to prevent future crashes.
+process.on('unhandledRejection', err => { console.log(err) })
 
 module.exports = {
   app,
