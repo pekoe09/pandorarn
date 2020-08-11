@@ -43,9 +43,11 @@ const Layout = (props) => {
         }}
       >
         <Switch>
-          <Route path='/gradings'>
+          <Route path='/settings'>
             <AdminContainer>
-              <GradingContainer />
+              <Route path='/settings/gradings'>
+                <GradingContainer />
+              </Route>
             </AdminContainer>
           </Route>
           <Route path='/'>

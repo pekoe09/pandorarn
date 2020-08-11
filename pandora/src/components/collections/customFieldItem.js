@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 const CustomFieldItem = ({ name, type, handleRemove }) => {
   return (
     <div
-      style={{ color: 'black' }}
+      style={{ color: 'white' }}
     >
       <span>{name} </span>
       <span>{type}</span>

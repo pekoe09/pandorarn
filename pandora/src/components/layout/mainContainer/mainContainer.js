@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { CollectionContainer } from '../../collections'
+import {
+  CollectionContainer,
+  CollectionHandler,
+  EditCollection
+} from '../../collections'
 
 const MainContainer = ({ collection }) => {
 
@@ -9,7 +14,30 @@ const MainContainer = ({ collection }) => {
       className='main-container'
       style={{ padding: '10px' }}
     >
-      <CollectionContainer collection={collection} />
+      <Switch>
+        <Route exact path='/collections'>
+          <CollectionHandler>
+            <CollectionContainer
+              collection={collection}
+            />
+          </CollectionHandler>
+        </Route>
+
+        <Route path='/collections/edit'>
+          <CollectionHandler>
+            <EditCollection
+              collection={collection}
+            />
+          </CollectionHandler>
+        </Route>
+        <Route path='/collections/create'>
+          <CollectionHandler>
+            <EditCollection
+              collection={null}
+            />
+          </CollectionHandler>
+        </Route>
+      </Switch>
     </div>
   )
 }

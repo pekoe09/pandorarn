@@ -116,7 +116,7 @@ const categoryReducer = (store = initialState, action) => {
       return {
         ...store,
         byId: remaining,
-        allIds: allIds.filter(id => id !== action.category._id),
+        allIds: store.allIds.filter(id => id !== action.category._id),
         deletingCategory: false,
         categoryError: null
       }

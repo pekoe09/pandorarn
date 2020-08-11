@@ -4,8 +4,6 @@ import { DropdownButtons } from '../common'
 
 const CollectionHeader = ({
   collection,
-  handleAddCategory,
-  handleAddSlot,
   handleEditCollection,
   handleDeleteCollection
 }) => {
@@ -14,12 +12,12 @@ const CollectionHeader = ({
     {
       id: 1,
       text: 'Add category',
-      clickHandler: handleAddCategory
+      clickHandler: handleEditCollection
     },
     {
       id: 2,
       text: 'Add slot',
-      clickHandler: handleAddSlot
+      clickHandler: handleEditCollection
     },
     {
       id: 3,
@@ -29,7 +27,8 @@ const CollectionHeader = ({
     {
       id: 4,
       text: 'Delete collection',
-      clickHandler: handleDeleteCollection
+      clickHandler: handleDeleteCollection,
+      targetValue: collection ? collection._id : null
     }
   ]
 
@@ -71,7 +70,5 @@ CollectionHeader.propTypes = {
     }))
   }),
   handleEditCollection: PropTypes.func.isRequired,
-  handleAddCategory: PropTypes.func.isRequired,
-  handleAddSlot: PropTypes.func.isRequired,
   handleDeleteCollection: PropTypes.func.isRequired
 }

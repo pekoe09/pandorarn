@@ -10,7 +10,7 @@ const DropdownButtons = ({ buttonDefs }) => {
           className={'dropdown-item'}
           key={d.id}
           type='button'
-          onClick={d.clickHandler}
+          onClick={() => d.clickHandler(d.targetValue)}
         >
           {d.text}
         </button>
@@ -43,6 +43,7 @@ DropdownButtons.propTypes = {
     id: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
     type: PropTypes.string,
-    clickHandler: PropTypes.func.isRequired
+    clickHandler: PropTypes.func.isRequired,
+    targetValue: PropTypes.string
   }))
 }

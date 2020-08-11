@@ -11,7 +11,9 @@ import {
   COLLECTION_UPDATE_FAILURE,
   COLLECTION_DELETE_BEGIN,
   COLLECTION_DELETE_SUCCESS,
-  COLLECTION_DELETE_FAILURE
+  COLLECTION_DELETE_FAILURE,
+  CATEGORY_CREATE_SUCCESS,
+  CATEGORY_DELETE_SUCCESS
 } from '../actions'
 
 const initialState = {
@@ -120,6 +122,16 @@ const collectionReducer = (store = initialState, action) => {
         ...store,
         deletingCollection: false,
         collectionError: action.payload.error
+      }
+    case CATEGORY_CREATE_SUCCESS:
+      // TODO: add category id to the appropriate collection
+      return {
+        ...store
+      }
+    case CATEGORY_DELETE_SUCCESS:
+      // TODO: remove category id from the appropriate collection
+      return {
+        ...store
       }
     default:
       console.log('hit default')
