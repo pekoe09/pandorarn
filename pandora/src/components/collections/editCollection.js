@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import 'react-bootstrap-typeahead/css/Typeahead.css'
@@ -11,7 +12,8 @@ import CollectionContext from './collectionContext'
 const EditCollection = ({
   collection,
   gradeTypes,
-  error
+  error,
+  history
 }) => {
   const [id, setId] = useState(collection ? collection._id : '')
   const [name, setName] = useState(collection ? collection.name : '')
@@ -90,6 +92,7 @@ const EditCollection = ({
 
   const handleCancel = () => {
     clearState()
+    history.push('/collections')
   }
 
   const validate = () => {
@@ -173,10 +176,10 @@ const mapStateToProps = store => ({
   error: store.collections.error
 })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   {}
-)(EditCollection)
+)(EditCollection))
 
 EditCollection.propTypes = {
   collection: PropTypes.shape({

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import React from 'react'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   CollectionContainer,
@@ -7,7 +7,11 @@ import {
   EditCollection
 } from '../../collections'
 
-const MainContainer = ({ collection }) => {
+const MainContainer = ({ collection, history }) => {
+
+  const handleEditCollection = () => {
+    history.push('/collections/edit')
+  }
 
   return (
     <div
@@ -19,6 +23,7 @@ const MainContainer = ({ collection }) => {
           <CollectionHandler>
             <CollectionContainer
               collection={collection}
+              handleEditCollection={handleEditCollection}
             />
           </CollectionHandler>
         </Route>
@@ -42,7 +47,7 @@ const MainContainer = ({ collection }) => {
   )
 }
 
-export default MainContainer
+export default withRouter(MainContainer)
 
 MainContainer.propTypes = {
   collection: PropTypes.shape({

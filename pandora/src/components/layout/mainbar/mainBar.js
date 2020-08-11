@@ -36,9 +36,12 @@ const MainBar = ({ currentUser, collections, currentCollection, handleNewCollect
               currentCollection={currentCollection}
             />
           </NavItem>
-          <NavItem style={{ marginLeft: '10px' }}>
-            <Button onClick={handleNewCollection}>New</Button>
-          </NavItem>
+          <NavLink style={{ marginLeft: '10px' }} to='/collections/create'>
+            <Button>New</Button>
+          </NavLink>
+          <NavLink to='/settings' style={{ marginLeft: 10 }}>
+            <Button>Settings</Button>
+          </NavLink>
         </Row>
         <NavItem>
           <Logout />

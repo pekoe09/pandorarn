@@ -6,7 +6,7 @@ import {
   CollectionHeader
 } from './index'
 
-const CollectionContainer = ({ collection, toggleEditCollection }) => {
+const CollectionContainer = ({ collection, handleEditCollection }) => {
 
   return (
     <>
@@ -14,7 +14,7 @@ const CollectionContainer = ({ collection, toggleEditCollection }) => {
         {value => (
           <CollectionHeader
             collection={collection}
-            handleEditCollection={toggleEditCollection}
+            handleEditCollection={handleEditCollection}
             handleDeleteCollection={value.handleDeleteCollection}
           />
         )}
@@ -34,5 +34,5 @@ CollectionContainer.propTypes = {
       name: PropTypes.string.isRequired
     }))
   }),
-  toggleEditCollection: PropTypes.func.isRequired
+  handleEditCollection: PropTypes.func.isRequired
 }
