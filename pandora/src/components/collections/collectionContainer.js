@@ -6,7 +6,11 @@ import {
   CollectionHeader
 } from './index'
 
-const CollectionContainer = ({ collection, handleEditCollection }) => {
+const CollectionContainer = ({
+  collection,
+  handleEditCollection,
+  handleEditCategory
+}) => {
 
   return (
     <>
@@ -19,6 +23,10 @@ const CollectionContainer = ({ collection, handleEditCollection }) => {
           />
         )}
       </CollectionContext.Consumer>
+      <CategoryListings
+        categories={collection.categories}
+        handleEditCategory={handleEditCategory}
+      />
     </>
   )
 }
@@ -34,5 +42,6 @@ CollectionContainer.propTypes = {
       name: PropTypes.string.isRequired
     }))
   }),
-  handleEditCollection: PropTypes.func.isRequired
+  handleEditCollection: PropTypes.func.isRequired,
+  handleEditCategory: PropTypes.func.isRequired
 }

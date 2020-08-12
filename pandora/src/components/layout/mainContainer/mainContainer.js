@@ -6,6 +6,10 @@ import {
   CollectionHandler,
   EditCollection
 } from '../../collections'
+import {
+  CategoryHandler,
+  EditCategory
+} from '../../categories'
 
 const MainContainer = ({ collection, history }) => {
 
@@ -41,6 +45,12 @@ const MainContainer = ({ collection, history }) => {
               collection={null}
             />
           </CollectionHandler>
+        </Route>
+        <Route path='/categories/edit'>
+          <CategoryHandler>
+            <EditCategory
+            />
+          </CategoryHandler>
         </Route>
       </Switch>
     </div>

@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Modal, Form } from '../common'
-import { FormButtons } from '../common'
-import { saveCategory } from '../../actions'
+import { Form, FormButtons } from '../common'
+import { CategoryContext } from './index'
 
-const EditCategory = ({ isOpen, closeModal, error, category }) => {
+const EditCategory = ({
+  category,
+  error,
+  history
+}) => {
 
-  const [id, setId] = useState('')
-  const [name, setName] = useState('')
+  const [id, setId] = useState(category ? category._id : '')
+  const [name, setName] = useState(category ? category.name : '')
   const [touched, setTouched] = useState({ name: false })
   const [errors, setErrors] = useState({})
 
@@ -21,21 +25,13 @@ const EditCategory = ({ isOpen, closeModal, error, category }) => {
     setName('')
   }
 
-  const handleSave = async (event) => {
+  const getCategoryObject = async (event) => {
     event.preventDefault()
     const category = {
       id,
       name
     }
-    await saveCategory(category)
-    if (!error) {
-      clearState()
-      closeModal()
-    }
-  }
-
-  const handleNameChange = event => {
-    setName(event.target.value)
+    return category
   }
 
   const handleBlur = field => {
@@ -49,18 +45,7 @@ const EditCategory = ({ isOpen, closeModal, error, category }) => {
 
   const handleCancel = () => {
     clearState()
-    closeModal()
-  }
-
-  const handleEnter = () => {
-    if (category) {
-      setId(category.id)
-      setName(category.name)
-    }
-  }
-
-  const handleExit = () => {
-    clearState()
+    history.push('/collections')
   }
 
   const validate = () => {
@@ -78,55 +63,48 @@ const EditCategory = ({ isOpen, closeModal, error, category }) => {
   }
 
   return (
-    <Modal
-      show={isOpen}
-      onEnter={handleEnter}
-      onShow={handleEnter}
-      onExit={handleExit}
-      onHide={closeModal}
-      animation={false}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>Add/edit category</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Group controlId='name'>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type='text'
-              name='name'
-              value={name}
-              onChange={handleNameChange}
-              onBlur={handleBlur}
-              isInvalid={getValidationState(errors, 'name')}
-            />
-          </Form.Group>
-        </Form>
-        <FormButtons
-          handleSave={}
-          handleCancel={}
-          saveIsDisabled={}
-        />
-      </Modal.Body>
-    </Modal>
+    <div style={{ padding: 10 }}>
+      <h2>Add/edit category</h2>
+      <Form>
+        <Form.Group controlId='name'>
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type='text'
+            name='name'
+            value={name}
+            onChange={e => setName(e.target.value)}
+            onBlur={handleBlur}
+            isInvalid={getValidationState(errors, 'name')}
+          />
+        </Form.Group>
+      </Form>
+      <CategoryContext>
+        {value => (
+          <FormButtons
+            handleSave={value.handleSaveCategory}
+            handleCancel={handleCancel}
+            saveIsDisabled={Object.keys(errors).some(x => errors[x])}
+          />
+        )}
+      </CategoryContext>
+    </div>
   )
 
 }
 
-export default connect(
-  null,
-  {
-    saveCategory
+const mapStateToProps = (store, ownProps) => {
+  const category = store.categories.byId[ownProps.match.params.id]
+  return {
+    category,
+    error: store.categories.categoryError
   }
-)(EditCategory)
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  {}
+)(EditCategory))
 
 EditCategory.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  category: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
-  })
+
 }
