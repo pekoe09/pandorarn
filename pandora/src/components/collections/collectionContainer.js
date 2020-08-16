@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import RouteContext from '../app/RouteContext'
 import { CategoryListings } from '../categories'
 import {
   CollectionContext,
   CollectionHeader
 } from './index'
 
-const CollectionContainer = ({
-  collection,
-  handleEditCollection,
-  handleEditCategory
-}) => {
+const CollectionContainer = ({ collection }) => {
 
   return (
     <>
@@ -18,14 +15,12 @@ const CollectionContainer = ({
         {value => (
           <CollectionHeader
             collection={collection}
-            handleEditCollection={handleEditCollection}
             handleDeleteCollection={value.handleDeleteCollection}
           />
         )}
       </CollectionContext.Consumer>
       <CategoryListings
         categories={collection.categories}
-        handleEditCategory={handleEditCategory}
       />
     </>
   )
@@ -41,7 +36,5 @@ CollectionContainer.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }))
-  }),
-  handleEditCollection: PropTypes.func.isRequired,
-  handleEditCategory: PropTypes.func.isRequired
+  })
 }

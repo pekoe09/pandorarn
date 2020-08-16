@@ -13,10 +13,6 @@ import {
 
 const MainContainer = ({ collection, history }) => {
 
-  const handleEditCollection = () => {
-    history.push('/collections/edit')
-  }
-
   return (
     <div
       className='main-container'
@@ -27,7 +23,6 @@ const MainContainer = ({ collection, history }) => {
           <CollectionHandler>
             <CollectionContainer
               collection={collection}
-              handleEditCollection={handleEditCollection}
             />
           </CollectionHandler>
         </Route>
@@ -46,10 +41,14 @@ const MainContainer = ({ collection, history }) => {
             />
           </CollectionHandler>
         </Route>
-        <Route path='/categories/edit'>
+        <Route path='/categories/edit/:id'>
           <CategoryHandler>
-            <EditCategory
-            />
+            <EditCategory />
+          </CategoryHandler>
+        </Route>
+        <Route path='/categories/create'>
+          <CategoryHandler>
+            <EditCategory />
           </CategoryHandler>
         </Route>
       </Switch>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, withRouter } from 'react-router-dom'
+import RouteHandler from './routeHandler'
 import {
   Layout
 } from '../layout'
@@ -9,9 +10,11 @@ import './app.css'
 
 function App() {
   return (
-    <Layout>
-      <p>lapsielementti userrights branch</p>
-    </Layout>
+    <RouteHandler>
+      <Layout>
+        <p>lapsielementti userrights branch</p>
+      </Layout>
+    </RouteHandler>
   );
 }
 

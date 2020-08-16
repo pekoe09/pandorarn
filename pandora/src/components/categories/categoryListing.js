@@ -16,7 +16,7 @@ const CategoryListing = ({
       <CategoryHeader
         category={category}
         handleAddCategory={handleAddCategory}
-        handleAddSlot={handleAddSlot}
+        handleAddSlot={handleAddCategory}
         handleEditCategory={handleEditCategory}
         handleDeleteCategory={handleDeleteCategory}
       />

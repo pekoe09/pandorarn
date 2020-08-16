@@ -1,18 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+import RouteContext from '../app/RouteContext'
 import { DropdownButtons } from '../common'
 
 const CollectionHeader = ({
   collection,
-  handleEditCollection,
   handleDeleteCollection
 }) => {
+
+  const routeContext = useContext(RouteContext)
+  const {
+    handleEditCollection,
+    handleEditCategory
+  } = routeContext
 
   const buttonDefs = [
     {
       id: 1,
       text: 'Add category',
-      clickHandler: handleEditCollection
+      clickHandler: handleEditCategory
     },
     {
       id: 2,
@@ -70,5 +76,6 @@ CollectionHeader.propTypes = {
     }))
   }),
   handleEditCollection: PropTypes.func.isRequired,
-  handleDeleteCollection: PropTypes.func.isRequired
+  handleDeleteCollection: PropTypes.func.isRequired,
+  handleEditCategory: PropTypes.func.isRequired
 }

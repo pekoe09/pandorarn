@@ -20,11 +20,6 @@ const EditCategory = ({
     setErrors(validate())
   }, [touched])
 
-  const clearState = () => {
-    setId('')
-    setName('')
-  }
-
   const getCategoryObject = async (event) => {
     event.preventDefault()
     const category = {
@@ -78,7 +73,7 @@ const EditCategory = ({
           />
         </Form.Group>
       </Form>
-      <CategoryContext>
+      <CategoryContext.Consumer>
         {value => (
           <FormButtons
             handleSave={value.handleSaveCategory}
@@ -86,7 +81,7 @@ const EditCategory = ({
             saveIsDisabled={Object.keys(errors).some(x => errors[x])}
           />
         )}
-      </CategoryContext>
+      </CategoryContext.Consumer>
     </div>
   )
 
