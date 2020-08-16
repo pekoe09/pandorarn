@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import RouteContext from '../app/RouteContext'
+import { CollectionContext } from './index'
 import { DropdownButtons } from '../common'
 
 const CollectionHeader = ({
-  collection,
-  handleDeleteCollection
+  collection
 }) => {
 
   const routeContext = useContext(RouteContext)
@@ -13,6 +13,10 @@ const CollectionHeader = ({
     handleEditCollection,
     handleEditCategory
   } = routeContext
+  const collectionContext = useContext(CollectionContext)
+  const {
+    handleDeleteCollection
+  } = collectionContext
 
   const buttonDefs = [
     {
@@ -74,8 +78,5 @@ CollectionHeader.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }))
-  }),
-  handleEditCollection: PropTypes.func.isRequired,
-  handleDeleteCollection: PropTypes.func.isRequired,
-  handleEditCategory: PropTypes.func.isRequired
+  })
 }

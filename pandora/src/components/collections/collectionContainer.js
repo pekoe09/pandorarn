@@ -1,26 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import RouteContext from '../app/RouteContext'
 import { CategoryListings } from '../categories'
-import {
-  CollectionContext,
-  CollectionHeader
-} from './index'
+import { CollectionHeader } from './index'
 
 const CollectionContainer = ({ collection }) => {
 
   return (
     <>
-      <CollectionContext.Consumer>
-        {value => (
-          <CollectionHeader
-            collection={collection}
-            handleDeleteCollection={value.handleDeleteCollection}
-          />
-        )}
-      </CollectionContext.Consumer>
-      <CategoryListings
-        categories={collection.categories}
+      <CollectionHeader
+        collection={collection}
       />
     </>
   )
