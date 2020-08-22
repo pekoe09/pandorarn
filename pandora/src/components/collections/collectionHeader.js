@@ -55,7 +55,7 @@ const CollectionHeader = ({
           {!collection && 'No collection selected'}
         </span>
 
-        <DropdownButtons buttonDefs={buttonDefs} />
+        {collection && <DropdownButtons buttonDefs={buttonDefs} />}
 
       </div>
       <hr

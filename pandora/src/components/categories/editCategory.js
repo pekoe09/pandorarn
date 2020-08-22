@@ -7,6 +7,7 @@ import { CategoryContext } from './index'
 
 const EditCategory = ({
   category,
+  collectionId,
   error,
   history
 }) => {
@@ -20,11 +21,12 @@ const EditCategory = ({
     setErrors(validate())
   }, [touched])
 
-  const getCategoryObject = async (event) => {
+  const getCategoryObject = (event) => {
     event.preventDefault()
     const category = {
       id,
-      name
+      name,
+      collectionId
     }
     return category
   }
@@ -77,6 +79,7 @@ const EditCategory = ({
         {value => (
           <FormButtons
             handleSave={value.handleSaveCategory}
+            getSaveTarget={getCategoryObject}
             handleCancel={handleCancel}
             saveIsDisabled={Object.keys(errors).some(x => errors[x])}
           />
@@ -101,5 +104,5 @@ export default withRouter(connect(
 )(EditCategory))
 
 EditCategory.propTypes = {
-
+  collectionId: PropTypes.string.isRequired
 }

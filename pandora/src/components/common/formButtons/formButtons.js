@@ -2,13 +2,18 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
-const FormButtons = ({ handleSave, handleCancel, saveIsDisabled }) => {
+const FormButtons = ({
+  handleSave,
+  getSaveTarget,
+  handleCancel,
+  saveIsDisabled
+}) => {
   return (
     <>
       <Button
         bsstyle='primary'
         type='submit'
-        onClick={handleSave}
+        onClick={e => handleSave(getSaveTarget(e))}
         disabled={saveIsDisabled ? saveIsDisabled : false}
         style={{ marginRight: 5 }}
       >
@@ -28,6 +33,7 @@ export default FormButtons
 
 FormButtons.propTypes = {
   handleSave: PropTypes.func.isRequired,
+  getSaveTarget: PropTypes.func,
   handleCancel: PropTypes.func.isRequired,
   saveIsDisabled: PropTypes.bool
 }

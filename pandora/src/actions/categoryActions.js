@@ -22,9 +22,9 @@ export const createCategoryBegin = () => ({
   type: CATEGORY_CREATE_BEGIN
 })
 
-export const createCategorySuccess = category => ({
+export const createCategorySuccess = (category, collectionId) => ({
   type: CATEGORY_CREATE_SUCCESS,
-  payload: { category }
+  payload: { category, collectionId }
 })
 
 export const createCategoryFailure = error => ({
@@ -53,9 +53,9 @@ export const updateCategoryBegin = () => ({
   type: CATEGORY_UPDATE_BEGIN
 })
 
-export const updateCategorySuccess = category => ({
+export const updateCategorySuccess = (category, collectionId) => ({
   type: CATEGORY_UPDATE_SUCCESS,
-  payload: { category }
+  payload: { category, collectionId }
 })
 
 export const updateCategoryFailure = error => ({
@@ -90,13 +90,15 @@ export const getCategories = () => {
   }
 }
 
-export const saveCategory = category => {
-  console.log('action to save', category)
+export const saveCategory = categoryObject => {
+  console.log('action to save', categoryObject)
+  const { collectionId, ...category } = categoryObject
   return async (dispatch) => {
     if (category.id) {
       dispatch(updateCategoryBegin())
       try {
-        dispatch(updateCategorySuccess(category))
+        category = await updateEntity(category)
+        dispatch(updateCategorySuccess(category, collectionId))
       } catch (exception) {
         console.log('error when updating category', exception)
         dispatch(updateCategoryFailure(exception))
@@ -104,7 +106,8 @@ export const saveCategory = category => {
     } else {
       dispatch(createCategoryBegin())
       try {
-        dispatch(createCategorySuccess(category))
+        category = await addEntity(category)
+        dispatch(createCategorySuccess(category, collectionId))
       } catch (exception) {
         console.log('error when creating category', exception)
       }

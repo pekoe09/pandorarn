@@ -43,12 +43,16 @@ const MainContainer = ({ collection, history }) => {
         </Route>
         <Route path='/categories/edit/:id'>
           <CategoryHandler>
-            <EditCategory />
+            <EditCategory
+              collectionId={collection ? collection._id : null}
+            />
           </CategoryHandler>
         </Route>
         <Route path='/categories/create'>
           <CategoryHandler>
-            <EditCategory />
+            <EditCategory
+              collectionId={collection ? collection._id : null}
+            />
           </CategoryHandler>
         </Route>
       </Switch>

@@ -140,13 +140,17 @@ const collectionReducer = (store = initialState, action) => {
     case CATEGORY_CREATE_SUCCESS:
       const { category, collectionId } = action.payload
       const parent = store.byId[collectionId]
+      console.log('found parent', parent)
+      console.log('based on', category, collectionId)
       return {
         ...store,
         byId: {
           ...store.byId,
           [collectionId]: {
             ...parent,
-            categories: parent.categories.concat(category._id)
+            categories: parent.categories
+              ? parent.categories.concat(category._id)
+              : [category._id]
           }
         }
       }
