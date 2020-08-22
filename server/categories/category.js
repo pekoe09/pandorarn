@@ -1,39 +1,15 @@
 const mongoose = require('mongoose')
 const metaDataSchema = require('../utils/metaData')
 
-const customFieldSchema = new mongoose.Schema({
+const categorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
-  type: {
-    type: String,
-    required: true
-  }
-})
-
-const panCollectionSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  description: {
-    type: String
-  },
-  grading: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Grading'
-  },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  userRights: {
+  collections: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'UserRight',
+      ref: 'Collection',
       required: true
     }],
     required: true
@@ -61,10 +37,9 @@ const panCollectionSchema = new mongoose.Schema({
     }],
     required: true
   },
-  customFields: [customFieldSchema],
   metaData: metaDataSchema
 })
 
-const PanCollection = mongoose.model('Collection', panCollectionSchema)
+const Category = mongoose.model('Category', categorySchema)
 
-module.exports = PanCollection
+module.exports = Category
