@@ -17,7 +17,8 @@ import {
 } from '../actions'
 
 const initialState = {
-  items: [],
+  byId: {},
+  allIds: [],
   currentCollection: null,
   gettingCollections: false,
   creatingCollection: false,
@@ -32,7 +33,7 @@ const collectionReducer = (store = initialState, action) => {
       console.log('hit changed', action.payload.collectionId, store.items)
       return {
         ...store,
-        currentCollection: store.items.find(c => c._id.toString() === action.payload.collectionId)
+        currentCollection: store.byId[action.payload.collectionId]
       }
     case COLLECTION_CREATE_BEGIN:
       console.log('hit start creating')
@@ -43,9 +44,14 @@ const collectionReducer = (store = initialState, action) => {
       }
     case COLLECTION_CREATE_SUCCESS:
       console.log('hit create success', action.payload.collection)
+      const newCollection = action.payload.collection
       return {
         ...store,
-        items: store.items.concat(action.payload.collection),
+        byId: {
+          ...store.byId,
+          [newCollection._id]: newCollection
+        },
+        allIds: store.allIds.concat(newCollection._id),
         creatingCollection: false,
         collectionError: null
       }
@@ -65,9 +71,14 @@ const collectionReducer = (store = initialState, action) => {
       }
     case COLLECTION_READ_SUCCESS:
       console.log('hit read success', action.payload.collections)
+      const collections = action.payload.collections
       return {
         ...store,
-        items: action.payload.collections,
+        byId: collections.reduce((o, c) => {
+          o[c._id] = c
+          return o
+        }, {}),
+        allIds: collections.map(c => c._id),
         gettingCollections: false,
         collectionError: false
       }
@@ -86,11 +97,11 @@ const collectionReducer = (store = initialState, action) => {
         collectionError: null
       }
     case COLLECTION_UPDATE_SUCCESS:
-      console.log('hit update success', action.payload.collection, store.items)
+      console.log('hit update success', action.payload.collection, store.byId)
+      const collection = action.payload.collection
       return {
         ...store,
-        items: store.items.map(c => c._id === action.payload.collection._id
-          ? action.payload.collection : c),
+        byId: { ...store.byId, [collection._id]: collection },
         updatingCollection: false,
         collectionError: null
       }
@@ -110,9 +121,12 @@ const collectionReducer = (store = initialState, action) => {
       }
     case COLLECTION_DELETE_SUCCESS:
       console.log('hit delete success', action.payload.collectionId)
+      const deletedId = action.payload.collectionId
+      const { [deletedId]: _, ...remaining } = store.byId
       return {
         ...store,
-        items: store.items.filter(c => c._id !== action.payload.collectionId),
+        byId: remaining,
+        allIds: store.allIds.filter(id => id !== deletedId),
         deletingCollection: false,
         collectionError: null
       }
@@ -124,14 +138,30 @@ const collectionReducer = (store = initialState, action) => {
         collectionError: action.payload.error
       }
     case CATEGORY_CREATE_SUCCESS:
-      // TODO: add category id to the appropriate collection
+      const { category, collectionId } = action.payload
+      const parent = store.byId[collectionId]
       return {
-        ...store
+        ...store,
+        byId: {
+          ...store.byId,
+          [collectionId]: {
+            ...parent,
+            categories: parent.categories.concat(category._id)
+          }
+        }
       }
     case CATEGORY_DELETE_SUCCESS:
-      // TODO: remove category id from the appropriate collection
+      const { categoryId, collectionId: parentId } = action.payload
+      const oldParent = store.byId[parentId]
       return {
-        ...store
+        ...store,
+        byId: {
+          ...store.byId,
+          [parentId]: {
+            ...oldParent,
+            categories: oldParent.categories.filter(id => id !== categoryId)
+          }
+        }
       }
     default:
       console.log('hit default')

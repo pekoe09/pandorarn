@@ -13,6 +13,10 @@ const CollectionSelect = ({ collections, currentCollection, changeCollection, hi
     history.push('/collections')
   }
 
+  const byIdToArray = (collections) => {
+    return Object.keys(collections).map(key => collections[key])
+  }
+
   const selectedCollection = currentCollection ? [currentCollection] : []
 
   return (
@@ -21,7 +25,7 @@ const CollectionSelect = ({ collections, currentCollection, changeCollection, hi
         <Form.Label>Collections</Form.Label>
         <Typeahead
           onChange={selected => handleChange(selected)}
-          options={collections}
+          options={byIdToArray(collections)}
           selected={selectedCollection}
           labelKey='name'
           id='_id'

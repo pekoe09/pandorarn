@@ -25,7 +25,6 @@ const Layout = (props) => {
     setRegistrationIsOpen(!registrationIsOpen)
   }
 
-  console.log('layout has collections', props.collections)
   return (
     <>
       <MainBar
@@ -88,7 +87,7 @@ const Layout = (props) => {
 const mapStateToProps = store => ({
   currentUser: store.users.currentUser,
   currentCollection: store.collections.currentCollection,
-  collections: store.collections.items
+  collections: store.collections.byId
 })
 
 export default connect(

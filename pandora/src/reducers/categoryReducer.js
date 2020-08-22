@@ -112,11 +112,12 @@ const categoryReducer = (store = initialState, action) => {
       }
     case CATEGORY_DELETE_SUCCESS:
       console.log('hit delete success', action.payload.categoryId)
-      const { [action.payload.categoryId]: _, ...remaining } = store.byId
+      const categoryId = action.payload.categoryId
+      const { [categoryId]: _, ...remaining } = store.byId
       return {
         ...store,
         byId: remaining,
-        allIds: store.allIds.filter(id => id !== action.category._id),
+        allIds: store.allIds.filter(id => id !== categoryId),
         deletingCategory: false,
         categoryError: null
       }
