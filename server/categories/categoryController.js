@@ -20,10 +20,17 @@ categoryRouter.get('/', wrapAsync(async (req, res, next) => {
 }))
 
 categoryRouter.post('/', wrapAsync(async (req, res, next) => {
+  console.log('called category post')
   checkUser(req)
+  console.log('user checked')
   validateMandatoryFields(req, ['name'], 'category', 'create')
+  console.log('fields validated')
+  console.log(req.body)
   let collection = await findObjectById(req.body.collectionId, PanCollection, 'collection')
+  console.log('collection found')
+  console.log('validating rights')
   await validateUserRights(req, collection._id, 'admin')
+  console.log('validated')
 
   let category = new Category({
     name: req.body.name,

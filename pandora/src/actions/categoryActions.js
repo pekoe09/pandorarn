@@ -92,12 +92,12 @@ export const getCategories = () => {
 
 export const saveCategory = categoryObject => {
   console.log('action to save', categoryObject)
-  const { collectionId, ...category } = categoryObject
+  let { collectionId, ...category } = categoryObject
   return async (dispatch) => {
     if (category.id) {
       dispatch(updateCategoryBegin())
       try {
-        category = await updateEntity(category)
+        category = await updateEntity('categories', categoryObject)
         dispatch(updateCategorySuccess(category, collectionId))
       } catch (exception) {
         console.log('error when updating category', exception)
@@ -106,7 +106,7 @@ export const saveCategory = categoryObject => {
     } else {
       dispatch(createCategoryBegin())
       try {
-        category = await addEntity(category)
+        category = await addEntity('categories', categoryObject)
         dispatch(createCategorySuccess(category, collectionId))
       } catch (exception) {
         console.log('error when creating category', exception)
