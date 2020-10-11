@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Modal, Form } from '../common'
+import { Modal, ModalForm } from '../common'
 import { FormButtons } from '../common'
 import { register, login } from '../../actions'
 
@@ -118,10 +118,10 @@ const Register = ({ isOpen, closeModal, error, register, login }) => {
         <Modal.Title>Register for Pandora!</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group controlId='firstName'>
-            <Form.Label>First name</Form.Label>
-            <Form.Control
+        <ModalForm>
+          <ModalForm.Group controlId='firstName'>
+            <ModalForm.Label>First name</ModalForm.Label>
+            <ModalForm.Control
               type='text'
               name='firstName'
               value={firstName}
@@ -129,10 +129,10 @@ const Register = ({ isOpen, closeModal, error, register, login }) => {
               onBlur={handleBlur}
               isInvalid={getValidationState(errors, 'firstName')}
             />
-          </Form.Group>
-          <Form.Group controlId='lastName'>
-            <Form.Label>Last name</Form.Label>
-            <Form.Control
+          </ModalForm.Group>
+          <ModalForm.Group controlId='lastName'>
+            <ModalForm.Label>Last name</ModalForm.Label>
+            <ModalForm.Control
               type='text'
               name='lastName'
               value={lastName}
@@ -140,10 +140,10 @@ const Register = ({ isOpen, closeModal, error, register, login }) => {
               onBlur={handleBlur}
               isInvalid={getValidationState(errors, 'lastName')}
             />
-          </Form.Group>
-          <Form.Group controlId='email'>
-            <Form.Label>Email</Form.Label>
-            <Form.Control
+          </ModalForm.Group>
+          <ModalForm.Group controlId='email'>
+            <ModalForm.Label>Email</ModalForm.Label>
+            <ModalForm.Control
               type='text'
               name='email'
               value={email}
@@ -151,10 +151,10 @@ const Register = ({ isOpen, closeModal, error, register, login }) => {
               onBlur={handleBlur}
               isInvalid={getValidationState(errors, 'email')}
             />
-          </Form.Group>
-          <Form.Group controlId='psw'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
+          </ModalForm.Group>
+          <ModalForm.Group controlId='psw'>
+            <ModalForm.Label>Password</ModalForm.Label>
+            <ModalForm.Control
               type='text'
               name='psw'
               value={psw}
@@ -162,10 +162,10 @@ const Register = ({ isOpen, closeModal, error, register, login }) => {
               onBlur={handleBlur}
               isInvalid={getValidationState(errors, 'psw')}
             />
-          </Form.Group>
-          <Form.Group controlId='pswConfirmation'>
-            <Form.Label>Confirm password</Form.Label>
-            <Form.Control
+          </ModalForm.Group>
+          <ModalForm.Group controlId='pswConfirmation'>
+            <ModalForm.Label>Confirm password</ModalForm.Label>
+            <ModalForm.Control
               type='text'
               name='pswConfirmation'
               value={pswConfirmation}
@@ -173,13 +173,13 @@ const Register = ({ isOpen, closeModal, error, register, login }) => {
               onBlur={handleBlur}
               isInvalid={getValidationState(errors, 'pswConfirmation')}
             />
-          </Form.Group>
+          </ModalForm.Group>
           <FormButtons
             handleSave={handleSave}
             handleCancel={handleCancel}
             saveIsDisabled={false}
           />
-        </Form>
+        </ModalForm>
       </Modal.Body>
     </Modal>
   )
