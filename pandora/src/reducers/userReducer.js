@@ -2,7 +2,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_SUCCESS,
-  LOGOUT_FAILURE
+  LOGOUT_FAILURE,
+  REGISTRATION_SUCCESS,
+  REGISTRATION_FAILURE
 } from '../actions'
 
 const initialState = {
@@ -41,6 +43,16 @@ const userReducer = (store = initialState, action) => {
       return {
         ...store,
         loggingOut: false,
+        error: action.payload.error
+      }
+    case REGISTRATION_SUCCESS:
+      return {
+        ...store,
+        error: null
+      }
+    case REGISTRATION_FAILURE:
+      return {
+        ...store,
         error: action.payload.error
       }
     default:

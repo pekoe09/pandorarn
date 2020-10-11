@@ -5,7 +5,9 @@ import './sidebar.scss'
 const SideBar = ({ collections, currentCollection }) => {
 
   const getCategoryItems = () => {
-    let categoryItems = (currentCollection && currentCollection.categories) ?
+    console.log('Loading sidebar categories')
+    console.log(currentCollection.categories)
+    let categoryItems = (currentCollection && currentCollection.categories && currentCollection.categories.length > 0) ?
       currentCollection.categories.map(c =>
         <CategoryBarItem category={c} key={c.id} />)
       : 'No categories in the collection'

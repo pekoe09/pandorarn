@@ -10,6 +10,7 @@ import {
 import { GradingContainer } from '../gradings'
 import { EditCollection } from '../collections'
 import { Register } from '../users'
+import { register } from '../../actions'
 import './layout.scss'
 
 const Layout = (props) => {
@@ -78,18 +79,34 @@ const Layout = (props) => {
       <Register
         isOpen={registrationIsOpen}
         closeModal={toggleRegistration}
-        error={''}
+        error={props.userError}
+        register={props.register}
       />
     </>
   )
 }
 
-const mapStateToProps = store => ({
-  currentUser: store.users.currentUser,
-  currentCollection: store.collections.currentCollection,
-  collections: store.collections.byId
-})
+const mapStateToProps = store => {
+  let currentCollection = store.collections.currentCollection
+  let fullCategories = []
+  /*currentCollection.categories.forEach(id => {
+    fullCategories.push(store.categories.byId[id])
+  })*/
+  console.log('collection', currentCollection)
+  console.log('all categories', store.categories.byId)
+  console.log('hydrated categories', fullCategories)
+  if (currentCollection) {
+    currentCollection.categories = fullCategories
+  }
+  return {
+    currentUser: store.users.currentUser,
+    currentCollection,
+    collections: store.collections.byId,
+    userError: store.users.error
+  }
+}
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  { register }
 )(Layout)

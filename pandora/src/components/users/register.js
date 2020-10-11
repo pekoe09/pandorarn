@@ -203,6 +203,6 @@ export default connect(
 Register.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  error: PropTypes.string,
+  error: PropTypes.object,
   register: PropTypes.func.isRequired
 }

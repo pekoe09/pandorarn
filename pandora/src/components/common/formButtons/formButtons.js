@@ -13,7 +13,13 @@ const FormButtons = ({
       <Button
         bsstyle='primary'
         type='submit'
-        onClick={e => handleSave(getSaveTarget(e))}
+        onClick={e => {
+          if (getSaveTarget) {
+            handleSave(getSaveTarget(e))
+          } else {
+            handleSave(e)
+          }
+        }}
         disabled={saveIsDisabled ? saveIsDisabled : false}
         style={{ marginRight: 5 }}
       >

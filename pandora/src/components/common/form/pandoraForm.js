@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap'
 
 const PandoraForm = styled(Form)`
   .form-label {
-    color: 'white';
+    color: #26356E;
   }
 `
 
