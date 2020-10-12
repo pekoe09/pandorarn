@@ -100,6 +100,25 @@ collectionRouter.delete('/:id', wrapAsync(async (req, res, next) => {
       error: 'Collection cannot be deleted as it still has sets.'
     })
   } else {
+    console.log('removing related user rights')
+    let userRightPromises = []
+    collection.userRights.forEach(id => { userRightPromises.push(UserRight.findById(id)) })
+    const userRights = await Promise.all(userRightPromises)
+    let userPromises = []
+    userRightPromises = []
+    console.log('retrieved userrights', userRights)
+    for(let i = 0; i < userRights.length; i++) {
+      let userRight = userRights[i]
+      console.log('looking at userright', userRight)
+      let user = await User.findById(userRight.user)
+      console.log('found user', user)
+      user.userRights = user.userRights.filter(id => id.toString() !== userRight._id.toString())
+      console.log('edited list of userrights', user.userRights)
+      userPromises.push(User.findByIdAndUpdate(user._id, user))
+      userRightPromises.push(UserRight.findByIdAndRemove(userRight._id))
+    }
+    await Promise.all(userPromises)
+    await Promise.all(userRightPromises)
     await PanCollection.findByIdAndRemove(collection._id)
     res.status(204).end()
   }

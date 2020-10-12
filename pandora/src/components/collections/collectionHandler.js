@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   saveCollection,
@@ -12,12 +13,19 @@ const CollectionHandler = ({
   deleteCollection,
   changeCollection,
   children,
-  error
+  error,
+  history
 }) => {
 
   const handleSaveCollection = async (collection) => {
     console.log('saving collection', collection)
     await saveCollection(collection)
+    console.log('collection saved successfully', collection)
+    console.log('error state', error)
+    console.log('is not error', !error)
+    if (!error) {
+      history.push('/collections')
+    }
   }
 
   const handleDeleteCollection = async (collectionId) => {
@@ -42,14 +50,14 @@ const CollectionHandler = ({
 }
 
 const mapStateToProps = store => ({
-  error: store.collections.error
+  error: store.collections.collectionError
 })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   {
     saveCollection,
     deleteCollection,
     changeCollection
   }
-)(CollectionHandler)
+)(CollectionHandler))

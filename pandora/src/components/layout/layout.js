@@ -63,6 +63,7 @@ const Layout = (props) => {
             >
               <MainContainer
                 collection={props.currentCollection}
+                toggleEditCollection={toggleEditCollection}
               />
             </div>
           </Route>

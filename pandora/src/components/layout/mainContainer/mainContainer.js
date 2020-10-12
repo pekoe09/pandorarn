@@ -11,7 +11,7 @@ import {
   EditCategory
 } from '../../categories'
 
-const MainContainer = ({ collection, history }) => {
+const MainContainer = ({ collection, toggleEditCollection, history }) => {
 
   return (
     <div
@@ -20,7 +20,9 @@ const MainContainer = ({ collection, history }) => {
     >
       <Switch>
         <Route exact path='/collections'>
-          <CollectionHandler>
+          <CollectionHandler
+            toggleEditCollection={toggleEditCollection}
+          >
             <CollectionContainer
               collection={collection}
             />
@@ -28,14 +30,18 @@ const MainContainer = ({ collection, history }) => {
         </Route>
 
         <Route path='/collections/edit'>
-          <CollectionHandler>
+          <CollectionHandler
+            toggleEditCollection={toggleEditCollection}
+          >
             <EditCollection
               collection={collection}
             />
           </CollectionHandler>
         </Route>
         <Route path='/collections/create'>
-          <CollectionHandler>
+          <CollectionHandler
+            toggleEditCollection={toggleEditCollection}
+          >
             <EditCollection
               collection={null}
             />
@@ -70,5 +76,6 @@ MainContainer.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }))
-  })
+  }),
+  toggleEditCollection: PropTypes.func.isRequired
 }

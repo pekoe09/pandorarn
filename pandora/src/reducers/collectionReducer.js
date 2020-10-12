@@ -33,7 +33,8 @@ const collectionReducer = (store = initialState, action) => {
       console.log('hit changed', action.payload.collectionId, store.items)
       return {
         ...store,
-        currentCollection: store.byId[action.payload.collectionId]
+        currentCollection: store.byId[action.payload.collectionId],
+        collectionError: null
       }
     case COLLECTION_CREATE_BEGIN:
       console.log('hit start creating')
